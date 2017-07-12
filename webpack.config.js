@@ -38,6 +38,14 @@ const config = {
         loader: 'eslint-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.scss$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+        ],
+        exclude: /node_modules/,
+      },
     ],
   },
   resolve: {

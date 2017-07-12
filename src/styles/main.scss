@@ -1,0 +1,13 @@
+#rdocs-light-tooltip{
+    visibility: hidden;
+    display: block;
+    position: absolute;
+    border: 1px solid red;
+    background-color: #eee;
+    z-index: 10;
+    height: 250px;
+    width: 300px;
+}
+.rdocs-light-hovered{
+    color: blue;
+}
