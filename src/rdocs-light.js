@@ -12,7 +12,7 @@ import './styles/main.scss';
   function createTooltip() {
     const div = document.createElement('div');
     div.setAttribute('id', 'rdocs-light-tooltip');
-    div.innerHTML = '<h3>Title</h3><p>Description</p>';
+    div.innerHTML = '<h3 id="rdocs-light-tooltip-title"></h3><div id="rdocs-light-tooltip-description"></div>';
     insertTag('body', div);
     tooltip = document.getElementById('rdocs-light-tooltip');
   }
@@ -66,9 +66,40 @@ import './styles/main.scss';
     tooltip.style.left = left;
   }
 
+  function reqListener() {
+    const topic = JSON.parse(this.responseText);
+    document.getElementById('rdocs-light-tooltip-title').innerHTML = topic.title;
+    document.getElementById('rdocs-light-tooltip-description').innerHTML = topic.description;
+  }
+
+  function parseAttribute(attribute) {
+    const splitted = attribute.split('::');
+    if (splitted.length === 2) {
+      return {
+        package: splitted[0],
+        topic: splitted[1],
+      };
+    }
+    return undefined;
+  }
+
+  function sendRequest(attribute) {
+    const data = parseAttribute(attribute);
+    if (data !== undefined) {
+      const oReq = new XMLHttpRequest();
+      oReq.addEventListener('load', reqListener);
+      // TODO: Define Base URL
+      oReq.open('get', `http://localhost:1337/api/light/packages/${data.package}/topics/${data.topic}`, true);
+      oReq.send();
+    } else {
+      // TODO
+    }
+  }
+
   function mouseOverListener(DOMElement) {
     const element = DOMElement;
     element.classList.add('rdocs-light-hovered');
+    sendRequest(element.getAttribute('data-mini-rdoc'));
     showTooltip();
     setToolTipPosition(element.getBoundingClientRect());
   }
