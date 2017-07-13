@@ -77,7 +77,7 @@ import './styles/main.scss';
   }
 
   function reqErrorListener() {
-    console.error('Something went wrong when retrieving the data, hiding tooltip.');
+    console.error('Something went wrong when retrieving the data, hiding rdocs light widget.');
   }
 
   function parseAttribute(attribute) {
@@ -111,6 +111,8 @@ import './styles/main.scss';
     const visible = setToolTipPosition(element.getBoundingClientRect());
     if (visible) {
       sendRequest(element.getAttribute('data-mini-rdoc'));
+    } else {
+      console.info('Not enough space, rdocs light widget not shown.');
     }
   }
 
@@ -147,6 +149,6 @@ import './styles/main.scss';
       document.addEventListener('DOMContentLoaded', initRDocsLight);
     }
   } else {
-    console.log('Warning: tried to load RDocs Light multiple times.');
+    console.info('Warning: tried to load RDocs Light multiple times.');
   }
 })();
