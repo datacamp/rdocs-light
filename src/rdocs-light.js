@@ -104,12 +104,14 @@ const topicView = require('./views/topic.html');
     tooltip.innerHTML = packageView;
     document.getElementById('rdocs-light-tooltip-title').innerHTML = data.title;
     document.getElementById('rdocs-light-tooltip-description').innerHTML = data.description || '';
+    document.getElementById('rdocs-light-tooltip-link').href = data.uri;
   }
 
   function loadTopicData(data) {
     tooltip.innerHTML = topicView;
     document.getElementById('rdocs-light-tooltip-title').innerHTML = data.title;
     document.getElementById('rdocs-light-tooltip-description').innerHTML = data.description || '';
+    document.getElementById('rdocs-light-tooltip-link').href = data.uri;
   }
 
   function parseTopicURL(url) {
