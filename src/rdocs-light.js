@@ -9,9 +9,43 @@ const topicView = require('./views/topic.html');
   const TOOLTIP_WIDTH = 302;
   const API_BASE_URL = process.env.API_BASE_URL;
   let tooltip;
+  let onTooltip = false;
+  let onLinkElement = false;
 
   function insertTag(parent, element) {
     document.getElementsByTagName(parent)[0].appendChild(element);
+  }
+
+  function hideTooltip() {
+    tooltip.style.visibility = 'hidden';
+  }
+
+  function showTooltip() {
+    tooltip.style.visibility = 'visible';
+  }
+
+  function onTooltipListenerOver(event) {
+    const e = event.fromElement || event.relatedTarget;
+    if (e.parentNode === this || e === this) {
+      return;
+    }
+
+    onTooltip = true;
+    if (onTooltip && tooltip.style.visibility === 'hidden') {
+      showTooltip();
+    }
+  }
+
+  function onTooltipListener(event) {
+    const e = event.toElement || event.relatedTarget;
+    if (e.parentNode === this || e === this) {
+      return;
+    }
+
+    onTooltip = false;
+    if (!onTooltip && !onLinkElement) {
+      hideTooltip();
+    }
   }
 
   function createTooltip() {
@@ -19,6 +53,8 @@ const topicView = require('./views/topic.html');
     div.setAttribute('id', 'rdocs-light-tooltip');
     insertTag('body', div);
     tooltip = document.getElementById('rdocs-light-tooltip');
+    tooltip.addEventListener('mouseover', event => onTooltipListenerOver(event));
+    tooltip.addEventListener('mouseout', event => onTooltipListener(event));
   }
 
   function getCurrentVisibleHeightAndWidth() {
@@ -30,14 +66,6 @@ const topicView = require('./views/topic.html');
     const y = w.innerHeight || e.clientHeight || g.clientHeight;
 
     return { x, y };
-  }
-
-  function hideTooltip() {
-    tooltip.style.visibility = 'hidden';
-  }
-
-  function showTooltip() {
-    tooltip.style.visibility = 'visible';
   }
 
   function setToolTipPosition(box) {
@@ -175,7 +203,8 @@ const topicView = require('./views/topic.html');
     }
   }
 
-  function mouseOverListener(DOMElement) {
+  function linkElementMouseOverListener(DOMElement) {
+    onLinkElement = true;
     const element = DOMElement;
     element.classList.add('rdocs-light-hovered');
     const visible = setToolTipPosition(element.getBoundingClientRect());
@@ -186,10 +215,13 @@ const topicView = require('./views/topic.html');
     }
   }
 
-  function mouseOutListener(DOMElement) {
+  function linkElementMouseOutListener(DOMElement) {
     const element = DOMElement;
     element.classList.remove('rdocs-light-hovered');
-    hideTooltip();
+    onLinkElement = false;
+    if (!onTooltip) {
+      hideTooltip();
+    }
   }
 
   function findAllRDocLightDataAttributes() {
@@ -199,8 +231,8 @@ const topicView = require('./views/topic.html');
       console.info('No RDocumentation links found.');
     }
 
-    links.forEach(linkElement => linkElement.addEventListener('mouseover', () => mouseOverListener(linkElement)));
-    links.forEach(linkElement => linkElement.addEventListener('mouseout', () => mouseOutListener(linkElement)));
+    links.forEach(linkElement => linkElement.addEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
+    links.forEach(linkElement => linkElement.addEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
   }
 
   function initRDocsLight() {
