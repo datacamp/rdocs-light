@@ -50,7 +50,7 @@ import './styles/main.scss';
       left = screenSize.x - TOOLTIP_WIDTH + body.scrollLeft;
       if (left < 0) {
         hideTooltip();
-        return;
+        return false;
       }
     }
 
@@ -58,18 +58,26 @@ import './styles/main.scss';
       top = box.bottom + body.scrollTop;
       if (top + TOOLTIP_HEIGHT > screenSize.y + body.scrollTop) {
         hideTooltip();
-        return;
+        return false;
       }
     }
 
     tooltip.style.top = top;
     tooltip.style.left = left;
+
+    return true;
   }
 
-  function reqListener() {
+  function reqLoadListener() {
+    showTooltip();
+    console.log(this.responseText);
     const topic = JSON.parse(this.responseText);
     document.getElementById('rdocs-light-tooltip-title').innerHTML = topic.title;
     document.getElementById('rdocs-light-tooltip-description').innerHTML = topic.description;
+  }
+
+  function reqErrorListener() {
+    console.error('Something went wrong when retrieving the data, hiding tooltip.');
   }
 
   function parseAttribute(attribute) {
@@ -87,7 +95,8 @@ import './styles/main.scss';
     const data = parseAttribute(attribute);
     if (data !== undefined) {
       const oReq = new XMLHttpRequest();
-      oReq.addEventListener('load', reqListener);
+      oReq.addEventListener('load', reqLoadListener);
+      oReq.addEventListener('error', reqErrorListener, false);
       // TODO: Define Base URL
       oReq.open('get', `http://localhost:1337/api/light/packages/${data.package}/topics/${data.topic}`, true);
       oReq.send();
@@ -99,9 +108,10 @@ import './styles/main.scss';
   function mouseOverListener(DOMElement) {
     const element = DOMElement;
     element.classList.add('rdocs-light-hovered');
-    sendRequest(element.getAttribute('data-mini-rdoc'));
-    showTooltip();
-    setToolTipPosition(element.getBoundingClientRect());
+    const visible = setToolTipPosition(element.getBoundingClientRect());
+    if (visible) {
+      sendRequest(element.getAttribute('data-mini-rdoc'));
+    }
   }
 
   function mouseOutListener(DOMElement) {
