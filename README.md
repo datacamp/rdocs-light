@@ -6,7 +6,7 @@ Load rdocs-light.min.js in your webpage.
 
 ## How does it work?
 
-Html elements with the `data-mini-rdoc` attribute will show a tooltip when hovered over. The value of the attribute should be of the form `package::topic`.
+Html elements with the `data-mini-rdoc` attribute will show a tooltip when hovered over. The value of the attribute should be of the form `package::topic` or just `package`.
 
 ## Examples
 
