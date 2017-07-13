@@ -107,7 +107,7 @@ import './styles/main.scss';
       oReq.open('get', `${API_BASE_URL}/api/light/packages/${data.package}/topics/${data.topic}`, true);
       oReq.send();
     } else {
-      // TODO
+      console.warn('Invalid attribute value.');
     }
   }
 
@@ -132,7 +132,7 @@ import './styles/main.scss';
     const links = document.querySelectorAll('[data-mini-rdoc]');
 
     if (links.length === 0) {
-      console.log('No RDocumentation links found.');
+      console.info('No RDocumentation links found.');
     }
 
     links.forEach(linkElement => linkElement.addEventListener('mouseover', () => mouseOverListener(linkElement)));
