@@ -1,3 +1,4 @@
+// import './styles/_globals.scss';
 import './styles/main.scss';
 
 const packageView = require('./views/package.html');

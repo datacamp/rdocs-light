@@ -1,13 +1,51 @@
+@import './_globals.scss';
+
 #rdocs-light-tooltip{
     visibility: hidden;
     display: block;
     position: absolute;
-    border: 1px solid red;
-    background-color: #eee;
+    border: 1px solid $primary-light;
+    background-color: $primary-lighter;
     z-index: 10;
     height: 250px;
     width: 300px;
 }
 .rdocs-light-hovered{
     color: blue;
+}
+
+.rdocs-light-button {
+    border: none;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: $button-radius;
+    font-size: $button-font-size;
+    font-weight: $button-font-weight;
+    line-height: $button-line-height;
+    padding: 0.5rem 1.875rem;
+    transition: background-color $default-duration ease, color $default-duration ease;
+    text-align: center;
+
+    &:hover, &:focus, &:active:focus {
+        outline: none;
+    }
+
+    .fa {
+        margin-right: 0.5rem;
+    }
+}
+
+@mixin rdocs-light-color-button($bg, $color, $hover){
+    background-color: $bg;
+    color: $color;
+    &:hover,
+    &:focus { background-color: $hover; color: $color;}
+}
+
+.rdocs-light-button-primary {
+    @include rdocs-light-color-button($accent, $accent-dark, $accent-light);
+}
+
+.rdocs-light-button-secondary {
+    @include rdocs-light-color-button($primary, $text-invert, $primary-light);
 }
