@@ -1,11 +1,17 @@
 const webpack = require('webpack');
 const path = require('path');
 const env = require('yargs').argv.env;
+const DotenvPlugin = require('webpack-dotenv-plugin');
 
 const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 const libraryName = 'rdocs-light';
 
-const plugins = [];
+const plugins = [
+  new DotenvPlugin({
+    sample: './.env.example',
+    path: './.env',
+  }),
+];
 let outputFile;
 
 if (env === 'build') {

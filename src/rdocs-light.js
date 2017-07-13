@@ -3,6 +3,7 @@ import './styles/main.scss';
 (() => {
   const TOOLTIP_HEIGHT = 252;
   const TOOLTIP_WIDTH = 302;
+  const API_BASE_URL = process.env.API_BASE_URL;
   let tooltip;
 
   function insertTag(parent, element) {
@@ -69,11 +70,17 @@ import './styles/main.scss';
   }
 
   function reqLoadListener() {
-    showTooltip();
-    console.log(this.responseText);
     const topic = JSON.parse(this.responseText);
-    document.getElementById('rdocs-light-tooltip-title').innerHTML = topic.title;
-    document.getElementById('rdocs-light-tooltip-description').innerHTML = topic.description;
+    if (topic.title !== undefined) {
+      showTooltip();
+      document.getElementById('rdocs-light-tooltip-title').innerHTML = topic.title;
+      document.getElementById('rdocs-light-tooltip-description').innerHTML = topic.description || '';
+    } else {
+      const urlRegexString = `${API_BASE_URL}/api/light/packages/(.*)/topics/(.*)`;
+      const urlRegex = new RegExp(urlRegexString, 'g');
+      const match = urlRegex.exec(this.responseURL);
+      console.log(`No documentation found for ${match[1]}::${match[2]}`);
+    }
   }
 
   function reqErrorListener() {
@@ -97,8 +104,7 @@ import './styles/main.scss';
       const oReq = new XMLHttpRequest();
       oReq.addEventListener('load', reqLoadListener);
       oReq.addEventListener('error', reqErrorListener, false);
-      // TODO: Define Base URL
-      oReq.open('get', `http://localhost:1337/api/light/packages/${data.package}/topics/${data.topic}`, true);
+      oReq.open('get', `${API_BASE_URL}/api/light/packages/${data.package}/topics/${data.topic}`, true);
       oReq.send();
     } else {
       // TODO
