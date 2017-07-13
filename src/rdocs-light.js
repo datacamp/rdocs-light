@@ -1,5 +1,8 @@
 import './styles/main.scss';
 
+const packageView = require('./views/package.html');
+const topicView = require('./views/topic.html');
+
 (() => {
   const TOOLTIP_HEIGHT = 252;
   const TOOLTIP_WIDTH = 302;
@@ -13,7 +16,6 @@ import './styles/main.scss';
   function createTooltip() {
     const div = document.createElement('div');
     div.setAttribute('id', 'rdocs-light-tooltip');
-    div.innerHTML = '<h3 id="rdocs-light-tooltip-title"></h3><div id="rdocs-light-tooltip-description"></div>';
     insertTag('body', div);
     tooltip = document.getElementById('rdocs-light-tooltip');
   }
@@ -69,17 +71,70 @@ import './styles/main.scss';
     return true;
   }
 
+  function loadPackageData(data) {
+    tooltip.innerHTML = packageView;
+    document.getElementById('rdocs-light-tooltip-title').innerHTML = data.title;
+    document.getElementById('rdocs-light-tooltip-description').innerHTML = data.description || '';
+  }
+
+  function loadTopicData(data) {
+    tooltip.innerHTML = topicView;
+    document.getElementById('rdocs-light-tooltip-title').innerHTML = data.title;
+    document.getElementById('rdocs-light-tooltip-description').innerHTML = data.description || '';
+  }
+
+  function parseTopicURL(url) {
+    const urlRegexString = `${API_BASE_URL}/api/light/packages/(.*)/topics/(.*)`;
+    const urlRegex = new RegExp(urlRegexString, 'g');
+    const match = urlRegex.exec(url);
+    if (match !== null) {
+      return {
+        package: decodeURIComponent(match[1]),
+        topic: decodeURIComponent(match[2]),
+      };
+    }
+
+    return undefined;
+  }
+
+  function parsePackageURL(url) {
+    const urlRegexString = `${API_BASE_URL}/api/light/packages/(.*)`;
+    const urlRegex = new RegExp(urlRegexString, 'g');
+    const match = urlRegex.exec(url);
+    if (match !== null) {
+      return {
+        package: decodeURIComponent(match[1]),
+      };
+    }
+
+    return undefined;
+  }
+
+  function parseURL(url) {
+    const result = parseTopicURL(url);
+    if (result !== undefined) {
+      return result;
+    }
+    return parsePackageURL(url);
+  }
+
   function reqLoadListener() {
-    const topic = JSON.parse(this.responseText);
-    if (topic.title !== undefined) {
+    const data = JSON.parse(this.responseText);
+    const requestInfo = parseURL(this.responseURL);
+
+    if (data.title !== undefined) {
+      if (requestInfo.topic === undefined) {
+        loadPackageData(data);
+      } else {
+        loadTopicData(data);
+      }
       showTooltip();
-      document.getElementById('rdocs-light-tooltip-title').innerHTML = topic.title;
-      document.getElementById('rdocs-light-tooltip-description').innerHTML = topic.description || '';
     } else {
-      const urlRegexString = `${API_BASE_URL}/api/light/packages/(.*)/topics/(.*)`;
-      const urlRegex = new RegExp(urlRegexString, 'g');
-      const match = urlRegex.exec(this.responseURL);
-      console.log(`No documentation found for ${match[1]}::${match[2]}`);
+      let text = `No documentation found for the package '${requestInfo.package}'`;
+      if (requestInfo.topic !== undefined) {
+        text = `No documentation found for '${requestInfo.package}::${requestInfo.topic}'`;
+      }
+      console.log(text);
     }
   }
 
@@ -89,7 +144,11 @@ import './styles/main.scss';
 
   function parseAttribute(attribute) {
     const splitted = attribute.split('::');
-    if (splitted.length === 2) {
+    if (splitted.length === 1) {
+      return {
+        package: splitted[0],
+      };
+    } else if (splitted.length === 2) {
       return {
         package: splitted[0],
         topic: splitted[1],
@@ -104,7 +163,11 @@ import './styles/main.scss';
       const oReq = new XMLHttpRequest();
       oReq.addEventListener('load', reqLoadListener);
       oReq.addEventListener('error', reqErrorListener, false);
-      oReq.open('get', `${API_BASE_URL}/api/light/packages/${data.package}/topics/${data.topic}`, true);
+      let url = `${API_BASE_URL}/api/light/packages/${data.package}`;
+      if (data.topic !== undefined) {
+        url += `/topics/${data.topic}`;
+      }
+      oReq.open('get', url, true);
       oReq.send();
     } else {
       console.warn('Invalid attribute value.');
