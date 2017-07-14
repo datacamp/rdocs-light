@@ -104,6 +104,12 @@ const topicView = require('./views/topic.html');
     document.getElementById('rdocs-light-tooltip-title').innerHTML = data.title;
     document.getElementById('rdocs-light-tooltip-description').innerHTML = data.description || '';
     document.getElementById('rdocs-light-tooltip-link').href = data.uri;
+    const packageVersion = document.getElementById('rdocs-light-tooltip-header-package');
+    packageVersion.innerText = data.package_name;
+    packageVersion.href = data.url;
+    const version = document.getElementById('rdocs-light-tooltip-header-version');
+    version.innerText = `v${data.version.version}`;
+    version.href = data.version.url;
   }
 
   function loadTopicData(data) {
