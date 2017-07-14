@@ -6,7 +6,7 @@ const topicView = require('./views/topic.html');
 
 (() => {
   const TOOLTIP_HEIGHT = 252;
-  const TOOLTIP_WIDTH = 302;
+  const TOOLTIP_WIDTH = 402;
   const API_BASE_URL = process.env.API_BASE_URL;
   let tooltip;
   let onTooltip = false;
