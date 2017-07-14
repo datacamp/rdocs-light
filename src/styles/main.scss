@@ -4,8 +4,8 @@
     visibility: hidden;
     display: block;
     position: absolute;
-    border: 1px solid $primary-light;
-    background-color: $primary-lighter;
+    border: 1px solid $primary-lighter;
+    background-color: $primary-extra-light;
     z-index: 10;
     height: 220px;
     width: 370px;
@@ -13,8 +13,13 @@
     border-radius: 25px;
 }
 
-#rdocs-light-tooltip-title{
-    margin-top: 0px;
+#rdocs-light-tooltip-header{
+    display: flex;
+    justify-content: space-between;
+    a{
+        color: $text-tertiary;
+        text-decoration: none;
+    }
 }
 
 .rdocs-light-tooltip-bottom{
@@ -61,5 +66,5 @@
 }
 
 .rdocs-light-button-secondary {
-    @include rdocs-light-color-button($primary, $text-invert, $primary-light);
+    @include rdocs-light-color-button($primary-light, $text-invert, $primary-lighter);
 }

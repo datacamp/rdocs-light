@@ -1,4 +1,3 @@
-// import './styles/_globals.scss';
 import './styles/main.scss';
 
 const packageView = require('./views/package.html');
@@ -111,7 +110,13 @@ const topicView = require('./views/topic.html');
     tooltip.innerHTML = topicView;
     document.getElementById('rdocs-light-tooltip-title').innerHTML = data.title;
     document.getElementById('rdocs-light-tooltip-description').innerHTML = data.description || '';
-    document.getElementById('rdocs-light-tooltip-link').href = data.uri;
+    document.getElementById('rdocs-light-tooltip-link').href = data.url;
+    const topic = document.getElementById('rdocs-light-tooltip-header-topic');
+    topic.innerText = data.name;
+    topic.href = data.url;
+    const packageVersion = document.getElementById('rdocs-light-tooltip-header-package');
+    packageVersion.innerText = `${data.package_version.package_name} v${data.package_version.version}`;
+    packageVersion.href = data.package_version.url;
   }
 
   function parseTopicURL(url) {
