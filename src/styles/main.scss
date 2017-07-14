@@ -8,9 +8,23 @@
     background-color: $primary-lighter;
     z-index: 10;
     height: 250px;
-    width: 300px;
+    width: 400px;
+    padding: 15px;
+    border-radius: 25px;
 }
-.rdocs-light-hovered{
+
+#rdocs-light-tooltip-title{
+    margin-top: 0px;
+}
+
+.rdocs-light-tooltip-bottom{
+    position: absolute;   
+    bottom: 0; 
+    width: 100%; 
+    height: 50px;
+}
+
+.rdocs-light-link-hovered{
     color: blue;
 }
 

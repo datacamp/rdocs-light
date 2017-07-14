@@ -208,7 +208,7 @@ const topicView = require('./views/topic.html');
   function linkElementMouseOverListener(DOMElement) {
     onLinkElement = true;
     const element = DOMElement;
-    element.classList.add('rdocs-light-hovered');
+    element.classList.add('rdocs-light-link-hovered');
     const visible = setToolTipPosition(element.getBoundingClientRect());
     if (visible) {
       sendRequest(element.getAttribute('data-mini-rdoc'));
@@ -219,7 +219,7 @@ const topicView = require('./views/topic.html');
 
   function linkElementMouseOutListener(DOMElement) {
     const element = DOMElement;
-    element.classList.remove('rdocs-light-hovered');
+    element.classList.remove('rdocs-light-link-hovered');
     onLinkElement = false;
     if (!onTooltip) {
       hideTooltip();
