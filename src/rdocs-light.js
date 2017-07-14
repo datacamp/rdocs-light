@@ -10,22 +10,25 @@ const topicView = require('./views/topic.html');
   let tooltip;
   let onTooltip = false;
   let onLinkElement = false;
+  let tooltipIsPinned = false;
 
   function insertTag(parent, element) {
     document.getElementsByTagName(parent)[0].appendChild(element);
   }
 
   function hideTooltip() {
-    tooltip.style.visibility = 'hidden';
+    if (!tooltipIsPinned) {
+      tooltip.style.visibility = 'hidden';
+    }
   }
 
   function showTooltip() {
     tooltip.style.visibility = 'visible';
   }
 
-  function onTooltipListenerOver(event) {
+  function onTooltipOverListener(event) {
     const e = event.fromElement || event.relatedTarget;
-    if (e.parentNode === this || e === this) {
+    if (e !== null && (e.parentNode === this || e === this)) {
       return;
     }
 
@@ -35,9 +38,9 @@ const topicView = require('./views/topic.html');
     }
   }
 
-  function onTooltipListener(event) {
+  function onTooltipOutListener(event) {
     const e = event.toElement || event.relatedTarget;
-    if (e.parentNode === this || e === this) {
+    if (e !== null && (e.parentNode === this || e === this)) {
       return;
     }
 
@@ -47,13 +50,18 @@ const topicView = require('./views/topic.html');
     }
   }
 
+  function onTooltipClickListener() {
+    tooltipIsPinned = true;
+  }
+
   function createTooltip() {
     const div = document.createElement('div');
     div.setAttribute('id', 'rdocs-light-tooltip');
     insertTag('body', div);
     tooltip = document.getElementById('rdocs-light-tooltip');
-    tooltip.addEventListener('mouseover', event => onTooltipListenerOver(event));
-    tooltip.addEventListener('mouseout', event => onTooltipListener(event));
+    tooltip.addEventListener('mouseover', event => onTooltipOverListener(event));
+    tooltip.addEventListener('mouseout', event => onTooltipOutListener(event));
+    tooltip.addEventListener('click', () => onTooltipClickListener());
   }
 
   function getCurrentVisibleHeightAndWidth() {
@@ -248,8 +256,29 @@ const topicView = require('./views/topic.html');
     links.forEach(linkElement => linkElement.addEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
   }
 
+  function bodyClickListener(event) {
+    if (tooltipIsPinned) {
+      let e = event.toElement || event.relatedTarget;
+      if (e !== null) {
+        do {
+          if (e === tooltip) {
+            return;
+          }
+          e = e.parentNode;
+        } while (e.parentNode !== null);
+      }
+      tooltipIsPinned = false;
+      hideTooltip();
+    }
+  }
+
+  function addBodyClickListener() {
+    document.body.addEventListener('click', bodyClickListener, true);
+  }
+
   function initRDocsLight() {
     createTooltip();
+    addBodyClickListener();
     findAllRDocLightDataAttributes();
   }
 
