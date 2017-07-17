@@ -14,15 +14,21 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, 'lib')));
+app.use(express.static(path.join(__dirname, 'example')));
 
 const examplePath = path.join(__dirname, '/example/');
 const examples = fs.readdirSync(examplePath).filter(name => name.startsWith('example-'));
+let examplesHtml = '<html><body><table>';
+examples.forEach((example) => {
+  examplesHtml += `<tr><td> <a href='/${example}'> ${example} </a></td></tr>`;
+});
+examplesHtml += '</body></html>';
 
 app.get('/', (req, res) => {
-  res.sendFile(examplePath + examples[Math.floor(Math.random() * examples.length)]);
+  res.send(examplesHtml);
 });
 
 const port = process.env.PORT || 3003;
 app.listen(port, () => {
-  console.log(`Rdoc Light examples available on port ${port}.`);
+  console.log(`Rdocs Light examples available on port ${port}.`);
 });
