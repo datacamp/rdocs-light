@@ -1,0 +1,63 @@
+$nav-height: 40px;
+
+.rdocs-light-arrow {
+  margin:0;
+  padding:0;
+  display:block;
+  width: $nav-height;
+  height: $nav-height;
+  line-height: $nav-height;
+  text-align:center;
+  background-color:$primary-lighter;
+  font-weight:bold;
+  cursor:pointer;
+  position:absolute;
+  top:0;
+  z-index:101;
+}
+
+#rdocs-light-tooltip-anchors{
+  width:calc(100% - 80px);
+  height:$nav-height;
+  background-color: $primary-lighter;
+  padding:0 $nav-height;
+  margin-top: $tooltip-padding;
+  margin-bottom: -$tooltip-padding;
+  margin-left: -$tooltip-padding;
+  margin-right: -$tooltip-padding;
+  font-family:helvetica;
+  overflow:hidden;
+  position:relative;
+  z-index:99;
+}
+
+#rdocs-light-nav{
+  width:auto;
+  height: $nav-height;
+  overflow:hidden;
+  list-style-type:none;
+  white-space:nowrap;
+  transition:2.0s;
+  margin:0;
+  padding:0;
+  li {
+    display:inline-block;
+    height: $nav-height;
+    width: 35px;
+    line-height:$nav-height;
+    font-size:13px;
+    padding:0 20px;
+  }
+  a{
+    text-decoration: none;
+    color: inherit;
+    border: none;
+  }
+}
+
+.rdocs-light-arrow:first-of-type {
+  left:0;
+}
+.rdocs-light-arrow:nth-of-type(2) {
+  right:0;
+}

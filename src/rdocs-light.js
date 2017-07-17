@@ -126,20 +126,17 @@ const topicView = require('./views/topic.html');
     return true;
   }
 
-  /*
-  function trimText(text) {
-     let result = text;
-    if (result.length <= maxLength) {
-      return result;
-    }
-    result = result.substring(0, maxLength);
-    result = result.substring(0, result.lastIndexOf(' '));
-    result = `${result} ...`;
-    return result;
-  }
+  function initNavigation() {
+    const arrows = document.getElementsByClassName('rdocs-light-arrow');
+    const nav = document.getElementById('rdocs-light-nav');
+    arrows[0].addEventListener('click', () => {
+      nav.scrollLeft -= 75;
+    });
 
-  console.log(trimText('hallo test', 7));
-  console.log(trimText('hal lot  est', 7));*/
+    arrows[1].addEventListener('click', () => {
+      nav.scrollLeft += 75;
+    });
+  }
 
   function loadPackageData(data) {
     tooltip.innerHTML = packageView;
@@ -165,6 +162,20 @@ const topicView = require('./views/topic.html');
     const packageVersion = document.getElementById('rdocs-light-tooltip-header-package');
     packageVersion.innerText = `${data.package_version.package_name} v${data.package_version.version}`;
     packageVersion.href = data.package_version.url;
+
+    const nav = document.getElementById('rdocs-light-nav');
+    nav.innerHTML = '';
+    data.anchors.forEach((anchor) => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `${data.url}#${anchor.anchor}`;
+      a.target = '_blank';
+      a.innerText = anchor.title;
+      li.appendChild(a);
+      nav.appendChild(li);
+    });
+
+    initNavigation();
   }
 
   function parseTopicURL(url) {
