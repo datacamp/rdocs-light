@@ -18,16 +18,23 @@ const topicView = require('./views/topic.html');
   let autoPin = false;
   let pinOnClick = true;
 
+  function setAnchorsDisplay(display) {
+    const anchors = document.getElementById('rdocs-light-tooltip-anchors');
+    if (anchors !== null) {
+      anchors.style.display = display;
+    }
+  }
+
   function hideTooltip() {
     if (!tooltipIsPinned) {
       tooltip.style.visibility = 'hidden';
-      document.getElementById('rdocs-light-tooltip-anchors').style.display = 'none';
+      setAnchorsDisplay('none');
     }
   }
 
   function showTooltip() {
     tooltip.style.visibility = 'visible';
-    document.getElementById('rdocs-light-tooltip-anchors').style.display = 'block';
+    setAnchorsDisplay('block');
   }
 
   function onTooltipOverListener(event) {
@@ -128,9 +135,25 @@ const topicView = require('./views/topic.html');
     return true;
   }
 
-  function initNavigation() {
-    const arrows = document.getElementsByClassName('rdocs-light-arrow');
+  function setNavigation(topicUrl, anchors) {
+    const arrows = Array.from(document.getElementsByClassName('rdocs-light-arrow'));
     const nav = document.getElementById('rdocs-light-nav');
+    nav.innerHTML = '';
+    anchors.forEach((anchor) => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `${topicUrl}#${anchor.anchor}`;
+      a.target = '_blank';
+      a.innerText = anchor.title;
+      li.appendChild(a);
+      nav.appendChild(li);
+    });
+
+    if (anchors.length <= 4) {
+      arrows.forEach((arrow) => {
+        arrow.style.visibility = 'hidden';
+      });
+    }
     arrows[0].addEventListener('click', () => {
       nav.scrollLeft -= 75;
     });
@@ -165,19 +188,7 @@ const topicView = require('./views/topic.html');
     packageVersion.innerText = `${data.package_version.package_name} v${data.package_version.version}`;
     packageVersion.href = data.package_version.url;
 
-    const nav = document.getElementById('rdocs-light-nav');
-    nav.innerHTML = '';
-    data.anchors.forEach((anchor) => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = `${data.url}#${anchor.anchor}`;
-      a.target = '_blank';
-      a.innerText = anchor.title;
-      li.appendChild(a);
-      nav.appendChild(li);
-    });
-
-    initNavigation();
+    setNavigation(data.url, data.anchors);
   }
 
   function parseTopicURL(url) {
