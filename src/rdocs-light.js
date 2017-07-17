@@ -13,6 +13,7 @@ const topicView = require('./views/topic.html');
   let onLinkElement = false;
   let tooltipIsPinned = false;
   let topOffset = 0;
+  let autoPin = false;
 
   function hideTooltip() {
     if (!tooltipIsPinned) {
@@ -195,6 +196,9 @@ const topicView = require('./views/topic.html');
       } else {
         loadTopicData(data);
       }
+      if (autoPin) {
+        tooltipIsPinned = true;
+      }
       showTooltip();
     } else {
       let text = `No documentation found for the package '${requestInfo.package}'`;
@@ -301,6 +305,9 @@ const topicView = require('./views/topic.html');
     },
     setTopOffset: (offset) => {
       topOffset = offset;
+    },
+    setAutoPinning: (pin) => {
+      autoPin = pin;
     },
   };
 })();
