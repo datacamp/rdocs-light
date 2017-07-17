@@ -21,11 +21,13 @@ const topicView = require('./views/topic.html');
   function hideTooltip() {
     if (!tooltipIsPinned) {
       tooltip.style.visibility = 'hidden';
+      document.getElementById('rdocs-light-tooltip-anchors').style.display = 'none';
     }
   }
 
   function showTooltip() {
     tooltip.style.visibility = 'visible';
+    document.getElementById('rdocs-light-tooltip-anchors').style.display = 'block';
   }
 
   function onTooltipOverListener(event) {
