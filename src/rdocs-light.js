@@ -12,8 +12,11 @@ const topicView = require('./views/topic.html');
   let onTooltip = false;
   let onLinkElement = false;
   let tooltipIsPinned = false;
+
+
   let topOffset = 0;
   let autoPin = false;
+  let pinOnClick = true;
 
   function hideTooltip() {
     if (!tooltipIsPinned) {
@@ -26,9 +29,14 @@ const topicView = require('./views/topic.html');
   }
 
   function onTooltipOverListener(event) {
-    const e = event.fromElement || event.relatedTarget;
-    if (e !== null && (e.parentNode === this || e === this)) {
-      return;
+    let e = event.fromElement || event.relatedTarget;
+    if (e !== null) {
+      do {
+        if (e === this) {
+          return;
+        }
+        e = e.parentNode;
+      } while (e.parentNode !== null);
     }
 
     onTooltip = true;
@@ -38,10 +46,16 @@ const topicView = require('./views/topic.html');
   }
 
   function onTooltipOutListener(event) {
-    const e = event.toElement || event.relatedTarget;
-    if (e !== null && (e.parentNode === this || e === this)) {
+    let e = event.toElement || event.relatedTarget;
+    if (e === null) {
       return;
     }
+    do {
+      if (e === this) {
+        return;
+      }
+      e = e.parentNode;
+    } while (e.parentNode !== null);
 
     onTooltip = false;
     if (!onTooltip && !onLinkElement) {
@@ -50,7 +64,9 @@ const topicView = require('./views/topic.html');
   }
 
   function onTooltipClickListener() {
-    tooltipIsPinned = true;
+    if (pinOnClick) {
+      tooltipIsPinned = true;
+    }
   }
 
   function createTooltip(container) {
@@ -308,6 +324,9 @@ const topicView = require('./views/topic.html');
     },
     setAutoPinning: (pin) => {
       autoPin = pin;
+    },
+    setPinOnClick: (pin) => {
+      pinOnClick = pin;
     },
   };
 })();

@@ -1,0 +1,319 @@
+<html>
+    <head>
+        <script>
+          onPageLoad = function(){
+            rdl.initRDocsLight();
+            rdl.setPinOnClick(false);
+          }
+        </script>
+        <script src="rdocs-light.js"></script>
+    </head>
+    <body onload="onPageLoad()">
+        <div class="container">
+            <section>
+            <h5>
+        Nearest Neighbour Distance Function G
+        </h5>
+            <p>
+        Estimates the nearest neighbour distance distribution
+        function <span id="MathJax-Element-1-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-1" class="mjx-math"><span id="MJXc-Node-2" class="mjx-mrow"><span id="MJXc-Node-3" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span><span id="MJXc-Node-4" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-5" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-6" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span></span></span></span><script type="math/tex" id="MathJax-Element-1">G(r)</script> from a point pattern in a
+        window of arbitrary shape.
+        </p>
+            </section>
+
+
+            <section class="topic--keywords">
+                <dl>
+                <dt>Keywords</dt>
+                            <dd><a href="/search/keywords/spatial">spatial</a>, <a href="/search/keywords/nonparametric">nonparametric</a></dd>
+                </dl>
+            </section>
+
+
+
+            <section>
+                <h5 class="topic--title">Usage</h5>
+                <pre><code class="R hljs"><div>Gest(X, r=<span class="hljs-literal">NULL</span>, breaks=<span class="hljs-literal">NULL</span>, <span class="hljs-keyword">...</span>, correction=c(<span class="hljs-string">"rs"</span>, <span class="hljs-string">"km"</span>, <span class="hljs-string">"han"</span>), domain=<span class="hljs-literal">NULL</span>)</div></code></pre>
+            </section>
+
+
+
+            <section class="topic--arguments">
+                <h5 class="topic--title">Arguments</h5>
+                <dl>
+
+                    <dt>X</dt>
+                    <dd>The observed point pattern,
+            from which an estimate of <span id="MathJax-Element-2-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-7" class="mjx-math"><span id="MJXc-Node-8" class="mjx-mrow"><span id="MJXc-Node-9" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span><span id="MJXc-Node-10" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-11" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-12" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span></span></span></span><script type="math/tex" id="MathJax-Element-2">G(r)</script> will be computed.
+            An object of class <code>ppp</code>, or data
+            in any format acceptable to <code><a rd-options="" data-mini-rdoc="spatstat::as.ppp" href="/link/as.ppp?package=spatstat&amp;version=1.49-0">as.ppp</a>()</code>.
+        </dd>
+
+                    <dt>r</dt>
+                    <dd>Optional. Numeric vector. The values of the argument <span id="MathJax-Element-3-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-13" class="mjx-math"><span id="MJXc-Node-14" class="mjx-mrow"><span id="MJXc-Node-15" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span></span></span></span><script type="math/tex" id="MathJax-Element-3">r</script>
+            at which <span id="MathJax-Element-4-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-16" class="mjx-math"><span id="MJXc-Node-17" class="mjx-mrow"><span id="MJXc-Node-18" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span><span id="MJXc-Node-19" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-20" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-21" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span></span></span></span><script type="math/tex" id="MathJax-Element-4">G(r)</script> should be evaluated. There is a sensible default.
+            First-time users are strongly advised not to specify this argument.
+            See below for important conditions on <span id="MathJax-Element-5-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-22" class="mjx-math"><span id="MJXc-Node-23" class="mjx-mrow"><span id="MJXc-Node-24" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span></span></span></span><script type="math/tex" id="MathJax-Element-5">r</script>.
+        </dd>
+
+                    <dt>breaks</dt>
+                    <dd>
+            This argument is for internal use only.
+        </dd>
+
+                    <dt>...</dt>
+                    <dd>Ignored.</dd>
+
+                    <dt>correction</dt>
+                    <dd>
+            Optional.
+            The edge correction(s) to be used to estimate <span id="MathJax-Element-6-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-25" class="mjx-math"><span id="MJXc-Node-26" class="mjx-mrow"><span id="MJXc-Node-27" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span><span id="MJXc-Node-28" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-29" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-30" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span></span></span></span><script type="math/tex" id="MathJax-Element-6">G(r)</script>.
+            A vector of character strings selected from
+            <code>"none"</code>, <code>"rs"</code>, <code>"km"</code>, <code>"Hanisch"</code>
+            and <code>"best"</code>.
+            Alternatively <code>correction="all"</code> selects all options.
+        </dd>
+
+                    <dt>domain</dt>
+                    <dd>
+            Optional. Calculations will be restricted to this subset
+            of the window. See Details.
+        </dd>
+
+                </dl>
+            </section>
+
+
+            <!-- Other info -->
+
+            <section>
+                <h5 class="topic--title">Details</h5>
+                <p>
+        The nearest neighbour distance distribution function
+        (also called the ``<em>event-to-event</em>'' or
+        ``<em>inter-event</em>'' distribution)
+        of a point process <span id="MathJax-Element-7-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-31" class="mjx-math"><span id="MJXc-Node-32" class="mjx-mrow"><span id="MJXc-Node-33" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.444em; padding-bottom: 0.278em; padding-right: 0.024em;">X</span></span></span></span></span><script type="math/tex" id="MathJax-Element-7">X</script>
+        is the cumulative distribution function <span id="MathJax-Element-8-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-34" class="mjx-math"><span id="MJXc-Node-35" class="mjx-mrow"><span id="MJXc-Node-36" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-8">G</script> of the distance
+        from a typical random point of <span id="MathJax-Element-9-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-37" class="mjx-math"><span id="MJXc-Node-38" class="mjx-mrow"><span id="MJXc-Node-39" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.444em; padding-bottom: 0.278em; padding-right: 0.024em;">X</span></span></span></span></span><script type="math/tex" id="MathJax-Element-9">X</script> to
+        the nearest other point of <span id="MathJax-Element-10-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-40" class="mjx-math"><span id="MJXc-Node-41" class="mjx-mrow"><span id="MJXc-Node-42" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.444em; padding-bottom: 0.278em; padding-right: 0.024em;">X</span></span></span></span></span><script type="math/tex" id="MathJax-Element-10">X</script>.</p><p></p><p>  An estimate of <span id="MathJax-Element-11-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-43" class="mjx-math"><span id="MJXc-Node-44" class="mjx-mrow"><span id="MJXc-Node-45" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-11">G</script> derived from a spatial point pattern dataset
+        can be used in exploratory data analysis and formal inference
+        about the pattern (Cressie, 1991; Diggle, 1983; Ripley, 1988).
+        In exploratory analyses, the estimate of <span id="MathJax-Element-12-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-46" class="mjx-math"><span id="MJXc-Node-47" class="mjx-mrow"><span id="MJXc-Node-48" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-12">G</script> is a useful statistic
+        summarising one aspect of the ``clustering'' of points.
+        For inferential purposes, the estimate of <span id="MathJax-Element-13-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-49" class="mjx-math"><span id="MJXc-Node-50" class="mjx-mrow"><span id="MJXc-Node-51" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-13">G</script> is usually compared to the
+        true value of <span id="MathJax-Element-14-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-52" class="mjx-math"><span id="MJXc-Node-53" class="mjx-mrow"><span id="MJXc-Node-54" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-14">G</script> for a completely random (Poisson) point process,
+        which is
+        <span class="mjx-chtml MJXc-display" style="text-align: center;"><span id="MathJax-Element-15-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%; text-align: center;"><span id="MJXc-Node-55" class="mjx-math"><span id="MJXc-Node-56" class="mjx-mrow"><span id="MJXc-Node-57" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span><span id="MJXc-Node-58" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-59" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-60" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span><span id="MJXc-Node-61" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.058em; padding-bottom: 0.333em;">=</span></span><span id="MJXc-Node-62" class="mjx-mn MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.388em; padding-bottom: 0.333em;">1</span></span><span id="MJXc-Node-63" class="mjx-mo MJXc-space2"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.278em; padding-bottom: 0.444em;">−</span></span><span id="MJXc-Node-64" class="mjx-msubsup MJXc-space2"><span class="mjx-base"><span id="MJXc-Node-65" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">e</span></span></span><span class="mjx-sup" style="font-size: 70.7%; vertical-align: 0.584em; padding-left: 0px; padding-right: 0.071em;"><span id="MJXc-Node-66" class="mjx-texatom"><span id="MJXc-Node-67" class="mjx-mrow"><span id="MJXc-Node-68" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.278em; padding-bottom: 0.444em;">−</span></span><span id="MJXc-Node-69" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">λ</span></span><span id="MJXc-Node-70" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em; padding-right: 0.003em;">π</span></span><span id="MJXc-Node-71" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-72" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span></span><span class="mjx-sup" style="font-size: 70.7%; vertical-align: 0.513em; padding-left: 0px; padding-right: 0.071em;"><span id="MJXc-Node-73" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.388em; padding-bottom: 0.333em;">2</span></span></span></span></span></span></span></span></span></span></span></span><script type="math/tex; mode=display" id="MathJax-Element-15">G(r) = 1 - e^{ - \lambda \pi r^2} </script>
+        where <span id="MathJax-Element-16-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-74" class="mjx-math"><span id="MJXc-Node-75" class="mjx-mrow"><span id="MJXc-Node-76" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">l</span></span><span id="MJXc-Node-77" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">a</span></span><span id="MJXc-Node-78" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">m</span></span><span id="MJXc-Node-79" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">b</span></span><span id="MJXc-Node-80" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em; padding-right: 0.003em;">d</span></span><span id="MJXc-Node-81" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">a</span></span></span></span></span><script type="math/tex" id="MathJax-Element-16">lambda</script> is the intensity
+        (expected number of points per unit area).
+        Deviations between the empirical and theoretical <span id="MathJax-Element-17-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 120%;"><span id="MJXc-Node-82" class="mjx-math"><span id="MJXc-Node-83" class="mjx-mrow"><span id="MJXc-Node-84" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.503em; padding-bottom: 0.281em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-17">G</script> curves
+        may suggest spatial clustering or spatial regularity.</p><p>  This algorithm estimates the nearest neighbour distance distribution
+        function <span id="MathJax-Element-18-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-85" class="mjx-math"><span id="MJXc-Node-86" class="mjx-mrow"><span id="MJXc-Node-87" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-18">G</script>
+        from the point pattern <code>X</code>. It assumes that <code>X</code> can be treated
+        as a realisation of a stationary (spatially homogeneous)
+        random spatial point process in the plane, observed through
+        a bounded window.
+        The window (which is specified in <code>X</code> as <code>Window(X)</code>)
+        may have arbitrary shape. </p><p>  The argument <code>X</code> is interpreted as a point pattern object
+        (of class <code>"ppp"</code>, see <code><a rd-options="" data-mini-rdoc="spatstat::ppp.object" href="/link/ppp.object?package=spatstat&amp;version=1.49-0">ppp.object</a></code>) and can
+        be supplied in any of the formats recognised
+        by <code><a rd-options="" data-mini-rdoc="spatstat::as.ppp" href="/link/as.ppp?package=spatstat&amp;version=1.49-0">as.ppp</a>()</code>. </p><p>  The estimation of <span id="MathJax-Element-19-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-88" class="mjx-math"><span id="MJXc-Node-89" class="mjx-mrow"><span id="MJXc-Node-90" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-19">G</script> is hampered by edge effects arising from
+        the unobservability of points of the random pattern outside the window.
+        An edge correction is needed to reduce bias (Baddeley, 1998; Ripley, 1988).
+        The edge corrections implemented here are the border method or
+        ``<em>reduced sample</em>'' estimator, the spatial Kaplan-Meier estimator
+        (Baddeley and Gill, 1997) and the Hanisch estimator (Hanisch, 1984).</p><p>  The argument <code>r</code> is the vector of values for the
+        distance <span id="MathJax-Element-20-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-91" class="mjx-math"><span id="MJXc-Node-92" class="mjx-mrow"><span id="MJXc-Node-93" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span></span></span></span><script type="math/tex" id="MathJax-Element-20">r</script> at which <span id="MathJax-Element-21-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-94" class="mjx-math"><span id="MJXc-Node-95" class="mjx-mrow"><span id="MJXc-Node-96" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span><span id="MJXc-Node-97" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-98" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-99" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span></span></span></span><script type="math/tex" id="MathJax-Element-21">G(r)</script> should be evaluated.
+        It is also used to determine the breakpoints
+        (in the sense of <code><a rd-options="" data-mini-rdoc="graphics::hist" href="/link/hist?package=spatstat&amp;version=1.49-0">hist</a></code>)
+        for the computation of histograms of distances. The
+        estimators are computed from histogram counts.
+        This introduces a discretisation
+        error which is controlled by the fineness of the breakpoints.</p><p>  First-time users would be strongly advised not to specify <code>r</code>.
+        However, if it is specified, <code>r</code> must satisfy <code>r[1] = 0</code>,
+        and <code>max(r)</code> must be larger than the radius of the largest disc
+        contained in the window. Furthermore, the successive entries of <code>r</code>
+        must be finely spaced.</p><p>  The algorithm also returns an estimate of the hazard rate function,
+        <span id="MathJax-Element-22-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 120%;"><span id="MJXc-Node-100" class="mjx-math"><span id="MJXc-Node-101" class="mjx-mrow"><span id="MJXc-Node-102" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.447em; padding-bottom: 0.281em;">l</span></span><span id="MJXc-Node-103" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.225em; padding-bottom: 0.281em;">a</span></span><span id="MJXc-Node-104" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.225em; padding-bottom: 0.281em;">m</span></span><span id="MJXc-Node-105" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.447em; padding-bottom: 0.281em;">b</span></span><span id="MJXc-Node-106" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.447em; padding-bottom: 0.281em; padding-right: 0.003em;">d</span></span><span id="MJXc-Node-107" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.225em; padding-bottom: 0.281em;">a</span></span><span id="MJXc-Node-108" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.447em; padding-bottom: 0.614em;">(</span></span><span id="MJXc-Node-109" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.225em; padding-bottom: 0.281em;">r</span></span><span id="MJXc-Node-110" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.447em; padding-bottom: 0.614em;">)</span></span></span></span></span><script type="math/tex" id="MathJax-Element-22">lambda(r)</script>, of <span id="MathJax-Element-23-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-111" class="mjx-math"><span id="MJXc-Node-112" class="mjx-mrow"><span id="MJXc-Node-113" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span><span id="MJXc-Node-114" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-115" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-116" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span></span></span></span><script type="math/tex" id="MathJax-Element-23">G(r)</script>. The hazard rate is
+        defined as the derivative
+        <span class="mjx-chtml MJXc-display" style="text-align: center;"><span id="MathJax-Element-24-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%; text-align: center;"><span id="MJXc-Node-117" class="mjx-math"><span id="MJXc-Node-118" class="mjx-mrow"><span id="MJXc-Node-119" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">λ</span></span><span id="MJXc-Node-120" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-121" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-122" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span><span id="MJXc-Node-123" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.058em; padding-bottom: 0.333em;">=</span></span><span id="MJXc-Node-124" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.278em; padding-bottom: 0.444em;">−</span></span><span id="MJXc-Node-125" class="mjx-mfrac"><span class="mjx-box MJXc-stacked" style="width: 1.174em; padding: 0px 0.12em;"><span class="mjx-numerator" style="width: 1.174em; top: -1.396em;"><span id="MJXc-Node-126" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em; padding-right: 0.003em;">d</span></span></span><span class="mjx-denominator" style="width: 1.174em; bottom: -0.737em;"><span id="MJXc-Node-127" class="mjx-mrow"><span id="MJXc-Node-128" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em; padding-right: 0.003em;">d</span></span><span id="MJXc-Node-129" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span></span></span><span class="mjx-line" style="border-bottom: 1.3px solid; top: -0.284em; width: 1.174em;"></span></span><span class="mjx-vsize" style="height: 2.133em; vertical-align: -0.737em;"></span></span><span id="MJXc-Node-130" class="mjx-mi"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.388em; padding-bottom: 0.554em;">log</span></span><span id="MJXc-Node-131" class="mjx-mo"><span class="mjx-char"></span></span><span id="MJXc-Node-132" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-133" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.388em; padding-bottom: 0.333em;">1</span></span><span id="MJXc-Node-134" class="mjx-mo MJXc-space2"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.278em; padding-bottom: 0.444em;">−</span></span><span id="MJXc-Node-135" class="mjx-mi MJXc-space2"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span><span id="MJXc-Node-136" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-137" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-138" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span><span id="MJXc-Node-139" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span></span></span></span></span><script type="math/tex; mode=display" id="MathJax-Element-24">\lambda(r) = - \frac{d}{dr} \log (1 - G(r))</script>
+        This estimate should be used with caution as <span id="MathJax-Element-25-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-140" class="mjx-math"><span id="MJXc-Node-141" class="mjx-mrow"><span id="MJXc-Node-142" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-25">G</script> is not necessarily
+        differentiable.</p><p>  If the argument <code>domain</code> is given, the estimate of <span id="MathJax-Element-26-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-143" class="mjx-math"><span id="MJXc-Node-144" class="mjx-mrow"><span id="MJXc-Node-145" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span><span id="MJXc-Node-146" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">(</span></span><span id="MJXc-Node-147" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span><span id="MJXc-Node-148" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">)</span></span></span></span></span><script type="math/tex" id="MathJax-Element-26">G(r)</script>
+        will be based only on the nearest neighbour distances
+        measured from points falling inside <code>domain</code> (although their
+        nearest neighbours may lie outside <code>domain</code>).
+        This is useful in bootstrap techniques. The argument <code>domain</code>
+        should be a window (object of class <code>"owin"</code>) or something acceptable to
+        <code><a rd-options="" data-mini-rdoc="spatstat::as.owin" href="/link/as.owin?package=spatstat&amp;version=1.49-0">as.owin</a></code>. It must be a subset of the
+        window of the point pattern <code>X</code>.</p><p>  The naive empirical distribution of distances from each point of
+        the pattern <code>X</code> to the nearest other point of the pattern,
+        is a biased estimate of <span id="MathJax-Element-27-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 120%;"><span id="MJXc-Node-149" class="mjx-math"><span id="MJXc-Node-150" class="mjx-mrow"><span id="MJXc-Node-151" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.503em; padding-bottom: 0.281em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-27">G</script>. However it is sometimes useful.
+        It can be returned by the algorithm, by selecting <code>correction="none"</code>.
+        Care should be taken not to use the uncorrected
+        empirical <span id="MathJax-Element-28-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-152" class="mjx-math"><span id="MJXc-Node-153" class="mjx-mrow"><span id="MJXc-Node-154" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-28">G</script> as if it were an unbiased estimator of  <span id="MathJax-Element-29-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-155" class="mjx-math"><span id="MJXc-Node-156" class="mjx-mrow"><span id="MJXc-Node-157" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-29">G</script>.</p><p>  To simply compute the nearest neighbour distance for each point in the
+        pattern, use <code><a rd-options="" data-mini-rdoc="spatstat::nndist" href="/link/nndist?package=spatstat&amp;version=1.49-0">nndist</a></code>. To determine which point is the
+        nearest neighbour of a given point, use <code><a rd-options="" data-mini-rdoc="spatstat::nnwhich" href="/link/nnwhich?package=spatstat&amp;version=1.49-0">nnwhich</a></code>.
+        </p><p></p>
+            </section>
+
+
+
+            <section class="topic--value">
+                <h5 class="topic--title">Value</h5>
+                <p></p><dl>
+        An object of class <code>"fv"</code>, see <code><a rd-options="" data-mini-rdoc="spatstat::fv.object" href="/link/fv.object?package=spatstat&amp;version=1.49-0">fv.object</a></code>,
+        which can be plotted directly using <code><a rd-options="" data-mini-rdoc="spatstat::plot.fv" href="/link/plot.fv?package=spatstat&amp;version=1.49-0">plot.fv</a></code>.Essentially a data frame containing some or all of the following
+        columns:</dl><p></p>
+            </section>
+
+
+
+
+
+
+
+                <section>
+                <h5 class="topic--title">Warnings</h5>
+                <p>The function <span id="MathJax-Element-30-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-158" class="mjx-math"><span id="MJXc-Node-159" class="mjx-mrow"><span id="MJXc-Node-160" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-30">G</script> does not necessarily have a density.
+        Any valid c.d.f. may appear as the nearest neighbour distance
+        distribution function of a stationary point process. The reduced sample estimator of <span id="MathJax-Element-31-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-161" class="mjx-math"><span id="MJXc-Node-162" class="mjx-mrow"><span id="MJXc-Node-163" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-31">G</script> is pointwise approximately
+        unbiased, but need not be a valid distribution function; it may
+        not be a nondecreasing function of <span id="MathJax-Element-32-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-164" class="mjx-math"><span id="MJXc-Node-165" class="mjx-mrow"><span id="MJXc-Node-166" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.223em; padding-bottom: 0.278em;">r</span></span></span></span></span><script type="math/tex" id="MathJax-Element-32">r</script>. Its range is always
+        within <span id="MathJax-Element-33-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-167" class="mjx-math"><span id="MJXc-Node-168" class="mjx-mrow"><span id="MJXc-Node-169" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">[</span></span><span id="MJXc-Node-170" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.388em; padding-bottom: 0.388em;">0</span></span><span id="MJXc-Node-171" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="margin-top: -0.163em; padding-bottom: 0.554em;">,</span></span><span id="MJXc-Node-172" class="mjx-mn MJXc-space1"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.388em; padding-bottom: 0.333em;">1</span></span><span id="MJXc-Node-173" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.444em; padding-bottom: 0.609em;">]</span></span></span></span></span><script type="math/tex" id="MathJax-Element-33">[0,1]</script>. The spatial Kaplan-Meier estimator of <span id="MathJax-Element-34-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-174" class="mjx-math"><span id="MJXc-Node-175" class="mjx-mrow"><span id="MJXc-Node-176" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.499em; padding-bottom: 0.278em;">G</span></span></span></span></span><script type="math/tex" id="MathJax-Element-34">G</script> is always nondecreasing
+        but its maximum value may be less than <span id="MathJax-Element-35-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 121%;"><span id="MJXc-Node-177" class="mjx-math"><span id="MJXc-Node-178" class="mjx-mrow"><span id="MJXc-Node-179" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.388em; padding-bottom: 0.333em;">1</span></span></span></span></span><script type="math/tex" id="MathJax-Element-35">1</script>.</p>
+                </section>
+
+
+
+
+            <section>
+                <h5 class="topic--title">References</h5>
+                <p>
+            Baddeley, A.J. Spatial sampling and censoring.
+            In O.E. Barndorff-Nielsen, W.S. Kendall and
+            M.N.M. van Lieshout (eds)
+            <em>Stochastic Geometry: Likelihood and Computation</em>.
+            Chapman and Hall, 1998.
+            Chapter 2, pages 37-78.
+
+        Baddeley, A.J. and Gill, R.D.
+            Kaplan-Meier estimators of interpoint distance
+                distributions for spatial point processes.
+            <em>Annals of Statistics</em> <b>25</b> (1997) 263-292.</p><p></p><p>  Cressie, N.A.C. <em>Statistics for spatial data</em>.
+            John Wiley and Sons, 1991.</p><p>  Diggle, P.J. <em>Statistical analysis of spatial point patterns</em>.
+            Academic Press, 1983.</p><p>  Hanisch, K.-H. (1984) Some remarks on estimators of the distribution
+        function of nearest-neighbour distance in stationary spatial point
+        patterns. <em>Mathematische Operationsforschung und Statistik,
+            series Statistics</em> <b>15</b>, 409--412.
+
+        Ripley, B.D. <em>Statistical inference for spatial processes</em>.
+        Cambridge University Press, 1988.</p><p>  Stoyan, D, Kendall, W.S. and Mecke, J.
+        <em>Stochastic geometry and its applications</em>.
+        2nd edition. Springer Verlag, 1995.
+        </p><p></p>
+            </section>
+
+
+
+            <section>
+                <h5 class="topic--title">See Also</h5>
+                <p>
+        <code><a rd-options="" data-mini-rdoc="spatstat::nndist" href="/link/nndist?package=spatstat&amp;version=1.49-0">nndist</a></code>,
+        <code><a rd-options="" data-mini-rdoc="spatstat::nnwhich" href="/link/nnwhich?package=spatstat&amp;version=1.49-0">nnwhich</a></code>,
+        <code><a rd-options="" data-mini-rdoc="spatstat::Fest" href="/link/Fest?package=spatstat&amp;version=1.49-0">Fest</a></code>,
+        <code><a rd-options="" data-mini-rdoc="spatstat::Jest" href="/link/Jest?package=spatstat&amp;version=1.49-0">Jest</a></code>,
+        <code><a rd-options="" data-mini-rdoc="spatstat::Kest" href="/link/Kest?package=spatstat&amp;version=1.49-0">Kest</a></code>,
+        <code><a rd-options="" data-mini-rdoc="spatstat::km.rs" href="/link/km.rs?package=spatstat&amp;version=1.49-0">km.rs</a></code>,
+        <code><a rd-options="" data-mini-rdoc="spatstat::reduced.sample" href="/link/reduced.sample?package=spatstat&amp;version=1.49-0">reduced.sample</a></code>,
+        <code><a rd-options="" data-mini-rdoc="spatstat::kaplan.meier" href="/link/kaplan.meier?package=spatstat&amp;version=1.49-0">kaplan.meier</a></code>
+        </p>
+            </section>
+
+
+
+            <section style="display: none;">
+                <h5 class="topic--title">Aliases</h5>
+                <ul class="topic--aliases">
+
+                <li>Gest</li>
+
+                <li>nearest.neighbour</li>
+
+                </ul>
+            </section>
+
+
+
+            <section>
+                <h5 class="topic--title">Examples</h5>
+
+                    <pre><code class="R hljs" data-package-name="spatstat">  data(cells)
+        G &lt;- Gest(cells)
+        plot(G)
+
+        <span class="hljs-comment"># P-P style plot</span>
+        plot(G, cbind(km,theo) ~ theo)
+
+        <span class="hljs-comment"># the empirical G is below the Poisson G,</span>
+        <span class="hljs-comment"># indicating an inhibited pattern</span>
+
+        <span class="hljs-comment">## Not run: </span>
+        <span class="hljs-comment">#      plot(G, . ~ r)</span>
+        <span class="hljs-comment">#      plot(G, . ~ theo)</span>
+        <span class="hljs-comment">#      plot(G, asin(sqrt(.)) ~ asin(sqrt(theo)))</span>
+        <span class="hljs-comment">#   ## End(Not run)</span>
+        </code></pre>
+
+            </section>
+
+
+            <small>
+            <i> Documentation reproduced from package <span itemprop="name">spatstat</span>, version <span itemprop="version">1.49-0</span>,
+                License: GPL (&gt;= 2)
+            </i>
+            </small>
+
+
+
+
+            <div class="user-examples" id="postExample">
+            <h3>Community examples</h3>
+            <div class="example-content">
+
+                <div class="example--placeholder">Looks like there are no examples yet.</div>
+
+
+            </div>
+            <div class="example--form">
+        <div class="example--form-body">
+            <form method="post" action="/api/topics/7554172/examples">
+            <fieldset class="example--form-text">
+                <label for="text"><h3 id="postExampleTitle">Post a new example:</h3></label>
+                <textarea name="text" rows="4" id="postExampleText" style="display: none;"></textarea><div class="editor-toolbar"><a title="Bold (Ctrl-B)" tabindex="-1" class="fa fa-bold"></a><a title="Italic (Ctrl-I)" tabindex="-1" class="fa fa-italic"></a><a title="Heading (Ctrl-H)" tabindex="-1" class="fa fa-header"></a><i class="separator">|</i><a title="Quote (Ctrl-')" tabindex="-1" class="fa fa-quote-left"></a><a title="Generic List (Ctrl-L)" tabindex="-1" class="fa fa-list-ul"></a><a title="Numbered List (Ctrl-Alt-L)" tabindex="-1" class="fa fa-list-ol"></a><i class="separator">|</i><a title="Create Link (Ctrl-K)" tabindex="-1" class="fa fa-link"></a><a title="Insert Image (Ctrl-Alt-I)" tabindex="-1" class="fa fa-picture-o"></a><a title="Insert Table" tabindex="-1" class="fa fa-table"></a><a title="Insert Horizontal Line" tabindex="-1" class="fa fa-minus"></a><i class="separator">|</i><a title="Toggle Preview (Ctrl-P)" tabindex="-1" class="fa fa-eye no-disable"></a><a title="Toggle Side by Side (F9)" tabindex="-1" class="fa fa-columns no-disable no-mobile"></a><a title="Toggle Fullscreen (F11)" tabindex="-1" class="fa fa-arrows-alt no-disable no-mobile"></a><i class="separator">|</i><a title="Markdown Guide" tabindex="-1" class="fa fa-question-circle" href="https://simplemde.com/markdown-guide" target="_blank"></a><i class="separator">|</i><a title="Code (Ctrl-Alt-C)" tabindex="-1" class="fa fa-code"></a></div><div class="CodeMirror cm-s-paper CodeMirror-wrap CodeMirror-empty"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 14.9915px; left: 14.9913px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none;" tabindex="0"></textarea></div><div class="CodeMirror-vscrollbar" cm-not-content="true"><div style="min-width: 1px; height: 0px;"></div></div><div class="CodeMirror-hscrollbar" cm-not-content="true"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: -19px; border-right-width: 11px; min-height: 30px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: none;"><pre class="CodeMirror-placeholder" style="height: 0px; overflow: visible;">## New example
+        Use markdown to format your example
+
+        R code blocks are runnable and interactive:
+        ```r
+        a &lt;- 2
+        print(a)
+        ```
+
+        You can also display normal code blocks
+        ```
+        var a = b
+        ```</pre><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-cursors"><div class="CodeMirror-cursor" style="left: 3.99304px; top: 0px; height: 22.2222px;">&nbsp;</div></div><div class="CodeMirror-code"><pre class=" CodeMirror-line "><span style="padding-right: 0.1px;"><span cm-text="">&#8203;</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 11px; width: 1px; border-bottom: 0px solid transparent; top: 30px;"></div><div class="CodeMirror-gutters" style="display: none; height: 41px;"></div></div></div><div class="editor-preview-side"></div>
+            </fieldset>
+            <fieldset>
+
+                <a id="openModalExample" href="/modalLogin" rel="modal:open"><button class="btn btn-primary pull-right" type="button">Submit your example</button></a>
+
+            </fieldset>
+            </form>
+        </div>
+        </div>
+
+            </div>
+
+        </div>
+    </body>
+</html>
