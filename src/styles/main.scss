@@ -18,6 +18,17 @@
     overflow-x: hidden  !important;
     display: flex;
     flex-flow: column;
+    code {
+      display: inline-block;
+      line-height: 1;
+      margin: 0 0.25em;
+      padding: 0.2em 0.4em 0.35em 0.4em;
+      color: #3a3a3a;
+      font-family: monospace;
+      font-size: 0.8rem;
+      background-color: #eaeef3;
+      border-radius: 3px;
+    }
 }
 
 #rdocs-light-tooltip-content{
