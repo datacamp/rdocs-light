@@ -7,14 +7,12 @@ const topicView = require('./views/topic.html');
   const TOOLTIP_HEIGHT = 252;
   const TOOLTIP_WIDTH = 402;
   const API_BASE_URL = process.env.API_BASE_URL;
+  let pageContainer;
   let tooltip;
   let onTooltip = false;
   let onLinkElement = false;
   let tooltipIsPinned = false;
-
-  function insertTag(parent, element) {
-    document.getElementsByTagName(parent)[0].appendChild(element);
-  }
+  let topOffset = 0;
 
   function hideTooltip() {
     if (!tooltipIsPinned) {
@@ -54,10 +52,15 @@ const topicView = require('./views/topic.html');
     tooltipIsPinned = true;
   }
 
-  function createTooltip() {
+  function createTooltip(container) {
     const div = document.createElement('div');
     div.setAttribute('id', 'rdocs-light-tooltip');
-    insertTag('body', div);
+    if (container !== undefined) {
+      pageContainer = container;
+    } else {
+      pageContainer = document.getElementsByTagName('body')[0];
+    }
+    pageContainer.appendChild(div);
     tooltip = document.getElementById('rdocs-light-tooltip');
     tooltip.addEventListener('mouseover', event => onTooltipOverListener(event));
     tooltip.addEventListener('mouseout', event => onTooltipOutListener(event));
@@ -82,7 +85,7 @@ const topicView = require('./views/topic.html');
     // Seems necessairy
     screenSize.x -= 25;
 
-    let top = box.top + body.scrollTop - TOOLTIP_HEIGHT;
+    let top = (box.top + topOffset) + body.scrollTop - TOOLTIP_HEIGHT;
     let left = box.left - body.scrollLeft;
 
     if (left + TOOLTIP_WIDTH > screenSize.x) {
@@ -100,12 +103,26 @@ const topicView = require('./views/topic.html');
         return false;
       }
     }
-
-    tooltip.style.top = top;
-    tooltip.style.left = left;
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
 
     return true;
   }
+
+  /*
+  function trimText(text) {
+     let result = text;
+    if (result.length <= maxLength) {
+      return result;
+    }
+    result = result.substring(0, maxLength);
+    result = result.substring(0, result.lastIndexOf(' '));
+    result = `${result} ...`;
+    return result;
+  }
+
+  console.log(trimText('hallo test', 7));
+  console.log(trimText('hal lot  est', 7));*/
 
   function loadPackageData(data) {
     tooltip.innerHTML = packageView;
@@ -276,23 +293,14 @@ const topicView = require('./views/topic.html');
     document.body.addEventListener('click', bodyClickListener, true);
   }
 
-  function initRDocsLight() {
-    createTooltip();
-    addBodyClickListener();
-    findAllRDocLightDataAttributes();
-  }
-
-  function isAlreadyExecuted() {
-    return (tooltip !== undefined);
-  }
-
-  if (!isAlreadyExecuted()) {
-    if (document.readyState === 'complete' || document.readyState === 'loaded') {
-      initRDocsLight();
-    } else {
-      document.addEventListener('DOMContentLoaded', initRDocsLight);
-    }
-  } else {
-    console.info('Warning: tried to load RDocs Light multiple times.');
-  }
+  module.exports = {
+    initRDocsLight: (container) => {
+      createTooltip(container);
+      addBodyClickListener();
+      findAllRDocLightDataAttributes();
+    },
+    setTopOffset: (offset) => {
+      topOffset = offset;
+    },
+  };
 })();

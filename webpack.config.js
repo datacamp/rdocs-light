@@ -5,6 +5,7 @@ const DotenvPlugin = require('webpack-dotenv-plugin');
 
 const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 const libraryName = 'rdocs-light';
+const lib = 'rdl';
 
 const plugins = [
   new DotenvPlugin({
@@ -27,7 +28,7 @@ const config = {
   output: {
     path: path.join(__dirname, '/lib'),
     filename: outputFile,
-    library: libraryName,
+    library: lib,
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },
