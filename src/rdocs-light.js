@@ -135,14 +135,14 @@ const topicView = require('./views/topic.html');
     return true;
   }
 
-  function setNavigation(topicUrl, anchors) {
+  function setNavigation(url, anchors) {
     const arrows = Array.from(document.getElementsByClassName('rdocs-light-arrow'));
     const nav = document.getElementById('rdocs-light-nav');
     nav.innerHTML = '';
     anchors.forEach((anchor) => {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = `${topicUrl}#${anchor.anchor}`;
+      a.href = `${url}#${anchor.anchor}`;
       a.target = '_blank';
       a.innerText = anchor.title;
       li.appendChild(a);
@@ -174,6 +174,7 @@ const topicView = require('./views/topic.html');
     const version = document.getElementById('rdocs-light-tooltip-header-version');
     version.innerText = `v${data.version.version}`;
     version.href = data.version.url;
+    setNavigation(data.url, data.anchors);
   }
 
   function loadTopicData(data) {
