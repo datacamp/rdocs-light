@@ -290,9 +290,10 @@ const notFoundView = require('./views/not-found.html');
   }
 
   const urlRegexes = [
-    '/packages/(.*)/versions/(.*)/topics/(.*)',
-    '/packages/(.*)/topics/(.*)',
-    '/packages/(.*)',
+    { url: '/packages/(.*)/versions/(.*)/topics/(.*)', fields: ['package', 'version', 'topic'] },
+    { url: '/packages/(.*)/versions/(.*)', fields: ['package', 'version'] },
+    { url: '/packages/(.*)/topics/(.*)', fields: ['package', 'topic'] },
+    { url: '/packages/(.*)', fields: ['package'] },
   ];
 
   function parseRDocLink(url) {
@@ -302,18 +303,13 @@ const notFoundView = require('./views/not-found.html');
     }
 
     let valid;
-    urlRegexes.some((urlRegexString) => {
-      const urlRegex = new RegExp(urlRegexString, 'g');
+    urlRegexes.some((urlRegexObject) => {
+      const urlRegex = new RegExp(urlRegexObject.url, 'g');
       const match = urlRegex.exec(l.pathname);
       if (match !== null) {
-        valid = {
-          package: match[1],
-        };
-        if (match.length === 4) {
-          valid.version = match[2];
-          valid.topic = match[3];
-        } else if (match.length === 3) {
-          valid.topic = match[2];
+        valid = {};
+        for (let i = 0; i < urlRegexObject.fields.length; i++) {
+          valid[urlRegexObject.fields[i]] = match[i + 1];
         }
         return true;
       }

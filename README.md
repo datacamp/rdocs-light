@@ -20,6 +20,17 @@ Html elements with the `data-mini-rdoc` attribute will show a tooltip with infor
 - Defaults to `true`
 - Can be set with `rdl.setPinOnClick(val);`
 
+#### Show Widget also for Rdoc Links
+- Whether or not widgets are shown for links to rdocumentation.org
+- No need for the attribute, just the link 
+- Defaults to `false`
+- Can be set with `rdl.setWidgetsForRdocLinks(val);`
+- Example links
+  - https://rdocumenation.org/packages/dplyr/versions/0.7.1
+  - https://rdocumenation.org/packages/dplyr/versions/0.7.1/topics/arrange
+  - https://rdocumenation.org/packages/dplyr/
+  - https://rdocumenation.org/packages/dplyr/topics/arrange 
+
 ## Examples
 
 You can find examples in the `example` folder in the repository.
