@@ -3,6 +3,7 @@ import './styles/main.scss';
 const packageView = require('./views/package.html');
 const topicView = require('./views/topic.html');
 const loaderView = require('./views/loader.html');
+const notFoundView = require('./views/not-found.html');
 
 (() => {
   const TOOLTIP_HEIGHT = 252;
@@ -141,6 +142,12 @@ const loaderView = require('./views/loader.html');
     showTooltip();
   }
 
+  function showNotFound(text) {
+    tooltip.innerHTML = notFoundView;
+    document.getElementById('rdocs-light-tooltip-title').innerText = text;
+    showTooltip();
+  }
+
   function setNavigation(url, anchors) {
     const arrows = Array.from(document.getElementsByClassName('rdocs-light-arrow'));
     const nav = document.getElementById('rdocs-light-nav');
@@ -252,7 +259,7 @@ const loaderView = require('./views/loader.html');
       if (requestInfo.topic !== undefined) {
         text = `No documentation found for '${requestInfo.package}::${requestInfo.topic}'`;
       }
-      console.log(text);
+      showNotFound(text);
     }
   }
 
