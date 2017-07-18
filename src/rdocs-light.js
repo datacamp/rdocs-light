@@ -206,15 +206,28 @@ const notFoundView = require('./views/not-found.html');
     setNavigation(data.url, data.anchors);
   }
 
+  function parseVersions(part) {
+    const versionRegex = new RegExp('(.*)/versions/(.*)', 'g');
+    const versionMatch = versionRegex.exec(part);
+    if (versionMatch === null) {
+      return {
+        package: decodeURIComponent(part),
+      };
+    }
+    return {
+      package: decodeURIComponent(versionMatch[1]),
+      version: decodeURIComponent(versionMatch[2]),
+    };
+  }
+
   function parseTopicURL(url) {
     const urlRegexString = `${API_BASE_URL}/api/light/packages/(.*)/topics/(.*)`;
     const urlRegex = new RegExp(urlRegexString, 'g');
     const match = urlRegex.exec(url);
     if (match !== null) {
-      return {
-        package: decodeURIComponent(match[1]),
-        topic: decodeURIComponent(match[2]),
-      };
+      const result = parseVersions(match[1]);
+      result.topic = decodeURIComponent(match[2]);
+      return result;
     }
 
     return undefined;
@@ -225,9 +238,7 @@ const notFoundView = require('./views/not-found.html');
     const urlRegex = new RegExp(urlRegexString, 'g');
     const match = urlRegex.exec(url);
     if (match !== null) {
-      return {
-        package: decodeURIComponent(match[1]),
-      };
+      return parseVersions(match[1]);
     }
 
     return undefined;
@@ -257,8 +268,14 @@ const notFoundView = require('./views/not-found.html');
       showTooltip();
     } else {
       let text = `No documentation found for the package '${requestInfo.package}'`;
-      if (requestInfo.topic !== undefined) {
+      if (requestInfo.version) {
+        text += ` v${requestInfo.version}`;
+      }
+      if (requestInfo.topic) {
         text = `No documentation found for '${requestInfo.package}::${requestInfo.topic}'`;
+        if (requestInfo.version) {
+          text = `No documentation found for '${requestInfo.topic}' in ${requestInfo.package} v${requestInfo.version}`;
+        }
       }
       showNotFound(text);
     }
@@ -325,6 +342,9 @@ const notFoundView = require('./views/not-found.html');
     oReq.addEventListener('load', reqLoadListener);
     oReq.addEventListener('error', reqErrorListener, false);
     let url = `${API_BASE_URL}/api/light/packages/${data.package}`;
+    if (data.version !== undefined) {
+      url += `/versions/${data.version}`;
+    }
     if (data.topic !== undefined) {
       url += `/topics/${data.topic}`;
     }
@@ -339,6 +359,9 @@ const notFoundView = require('./views/not-found.html');
     let data;
     if (element.hasAttribute('data-mini-rdoc')) {
       data = parseAttribute(element.getAttribute('data-mini-rdoc'));
+      if (element.hasAttribute('data-mini-rdoc-version')) {
+        data.version = element.getAttribute('data-mini-rdoc-version');
+      }
     } else {
       data = parseRDocLink(element.href);
     }
@@ -417,13 +440,20 @@ const notFoundView = require('./views/not-found.html');
     document.body.addEventListener('click', bodyClickListener, true);
   }
 
-  function getLinkFromTag(attribute) {
+  function getLinkFromTag(attribute, versionAttribute) {
     const data = parseAttribute(attribute);
+    if (versionAttribute) {
+      data.version = versionAttribute;
+    }
     if (data !== undefined) {
-      if (data.topic !== undefined) {
-        return `https://rdocumentation.org/packages/${data.package}/topics/${data.topic}`;
+      let url = `https://rdocumentation.org/packages/${data.package}`;
+      if (data.version !== undefined) {
+        url += `/versions/${data.version}`;
       }
-      return `https://rdocumentation.org/packages/${data.package}`;
+      if (data.topic !== undefined) {
+        url += `/topics/${data.topic}`;
+      }
+      return url;
     }
 
     return undefined;
@@ -468,7 +498,8 @@ const notFoundView = require('./views/not-found.html');
       const links = Array.from(document.querySelectorAll('[data-mini-rdoc]'));
       links.forEach((link) => {
         const attribute = link.getAttribute('data-mini-rdoc');
-        const url = getLinkFromTag(attribute);
+        const versionAttribute = link.getAttribute('data-mini-rdoc-version');
+        const url = getLinkFromTag(attribute, versionAttribute);
         if (url !== undefined) {
           if (link.nodeName === 'A') {
             link.href = url;

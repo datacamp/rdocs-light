@@ -3,7 +3,11 @@ Embeddable RDocumentation widget
 
 ## How does it work?
 
-Html elements with the `data-mini-rdoc` attribute will show a tooltip with information when hovered over. The value of the attribute should be of the form `package::topic` or just `package`.
+Html elements with the `data-mini-rdoc` attribute will show a tooltip with information when hovered over. The value of the attribute should be of the form `package::topic` or just `package`. The version of the package can also be defined with the optional `data-mini-rdoc-version` attribute. 
+
+If the version attribute is not provided:
+- For a package the documentation for the latest version of that package will be shown.
+- For a topic the documentation for the topic in the latest version of the package (which contains the topic) will be shown.
 
 ## How to use?
 - Load rdocs-light.min.js in your webpage.
