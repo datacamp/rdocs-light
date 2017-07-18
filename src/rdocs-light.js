@@ -417,6 +417,28 @@ const notFoundView = require('./views/not-found.html');
     document.body.addEventListener('click', bodyClickListener, true);
   }
 
+  function getLinkFromTag(attribute) {
+    const data = parseAttribute(attribute);
+    if (data !== undefined) {
+      if (data.topic !== undefined) {
+        return `https://rdocumentation.org/packages/${data.package}/topics/${data.topic}`;
+      }
+      return `https://rdocumentation.org/packages/${data.package}`;
+    }
+
+    return undefined;
+  }
+
+  function wrap(toWrap, wrapper) {
+    wrapper = wrapper || document.createElement('div');
+    if (toWrap.nextSibling) {
+      toWrap.parentNode.insertBefore(wrapper, toWrap.nextSibling);
+    } else {
+      toWrap.parentNode.appendChild(wrapper);
+    }
+    return wrapper.appendChild(toWrap);
+  }
+
   module.exports = {
     initRDocsLight: (container) => {
       createTooltip(container);
@@ -441,6 +463,22 @@ const notFoundView = require('./views/not-found.html');
           removeLinksAllRDocLinks();
         }
       }
+    },
+    autoLink: () => {
+      const links = Array.from(document.querySelectorAll('[data-mini-rdoc]'));
+      links.forEach((link) => {
+        const attribute = link.getAttribute('data-mini-rdoc');
+        const url = getLinkFromTag(attribute);
+        if (url !== undefined) {
+          if (link.nodeName === 'A') {
+            link.href = url;
+          } else {
+            const a = document.createElement('a');
+            a.href = url;
+            wrap(link, a);
+          }
+        }
+      });
     },
   };
 })();
