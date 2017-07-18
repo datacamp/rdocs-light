@@ -26,10 +26,10 @@ Html elements with the `data-mini-rdoc` attribute will show a tooltip with infor
 - Defaults to `false`
 - Can be set with `rdl.setWidgetsForRdocLinks(val);`
 - Example links
-  - https://rdocumenation.org/packages/dplyr/versions/0.7.1
-  - https://rdocumenation.org/packages/dplyr/versions/0.7.1/topics/arrange
-  - https://rdocumenation.org/packages/dplyr/
-  - https://rdocumenation.org/packages/dplyr/topics/arrange 
+  - https://rdocumentation.org/packages/dplyr/versions/0.7.1
+  - https://rdocumentation.org/packages/dplyr/versions/0.7.1/topics/arrange
+  - https://rdocumentation.org/packages/dplyr/
+  - https://rdocumentation.org/packages/dplyr/topics/arrange 
 
 ## Examples
 
