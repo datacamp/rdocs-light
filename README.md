@@ -12,10 +12,11 @@ If the version attribute is not provided:
 ## How to use?
 - Load rdocs-light.min.js in your webpage.
 - Call `rdl.initRDocsLight();` on page load
+- By default, the library searches through the whole body, if you want to change this, you can pass a DOM element to the call above.
 
 ### Auto Link to RDocumentation
 - Tags with the `data-mini-rdoc` attribute can be automatically changed to link to the documentation.
-- Can also be used standzlone (without initiating RDocsLight)
+- Can also be used standalone (without initiating RDocsLight)
 - Call `rdl.autoLink();`
 
 ### Options
@@ -39,6 +40,11 @@ If the version attribute is not provided:
   - https://rdocumentation.org/packages/dplyr/versions/0.7.1/topics/arrange
   - https://rdocumentation.org/packages/dplyr/
   - https://rdocumentation.org/packages/dplyr/topics/arrange 
+
+#### Set top offset
+- If there is a fixed element positioned at the top of the scrollable element, you can set the offset
+- Defaults to `0`
+- Can be set with `rdl.setTopOffset(val);`
 
 ## Examples
 
