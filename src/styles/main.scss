@@ -35,7 +35,9 @@
 
 #rdocs-light-tooltip-content{
     flex: 1;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 4px;
     max-height: calc(#{$tooltip-height} - #{$bottom-height});
     p {
       -webkit-margin-before: 0px;
@@ -46,6 +48,19 @@
         -webkit-margin-after: 0px;
         margin-top: 0.3rem;
     }
+}
+
+#rdocs-light-tooltip-content::-webkit-scrollbar {
+    width: 5px;
+    margin-top: -5px;
+}
+
+#rdocs-light-tooltip-content::-webkit-scrollbar-track {
+    background: $primary-extra-light;
+}
+
+#rdocs-light-tooltip-content::-webkit-scrollbar-thumb {
+    background: $primary-lighter;
 }
 
 #rdocs-light-tooltip-header{
