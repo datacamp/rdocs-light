@@ -11,8 +11,7 @@ If the version attribute is not provided:
 
 ## How to use?
 - Load rdocs-light.min.js in your webpage.
-- Call `rdl.initRDocsLight();` on page load
-- By default, the library searches through the whole body, if you want to change this, you can pass a DOM element to the call above.
+- Call `rdl.initRDocsLight(options);` on page load
 
 ### Auto Link to RDocumentation
 - Tags with the `data-mini-rdoc` attribute can be automatically changed to link to the documentation.
@@ -20,21 +19,26 @@ If the version attribute is not provided:
 - Call `rdl.autoLink();`
 
 ### Options
+#### Container
+- The DOM element  the library searches through
+- Default to the body of the page
+- Option name: `container`
+
 #### Auto Pinning 
 - Whether or not the widget is pinned automatically.
 - Defaults to `false`
-- Can be set with `rdl.setAutoPinning(val);`
+- Option name: `autoPin`
 
 #### Pin on click
 - Whether or not the widget is pinned when the user clicks on the widget.
 - Defaults to `true`
-- Can be set with `rdl.setPinOnClick(val);`
+- Option name: `pinOnClick`
 
 #### Show Widget also for Rdoc Links
 - Whether or not widgets are shown for links to rdocumentation.org
 - No need for the attribute, just the link 
 - Defaults to `false`
-- Can be set with `rdl.setWidgetsForRdocLinks(val);`
+- Option name: `widgetsForRdocsLinks`
 - Example links
   - https://rdocumentation.org/packages/dplyr/versions/0.7.1
   - https://rdocumentation.org/packages/dplyr/versions/0.7.1/topics/arrange
@@ -44,7 +48,7 @@ If the version attribute is not provided:
 #### Set top offset
 - If there is a fixed element positioned at the top of the scrollable element, you can set the offset
 - Defaults to `0`
-- Can be set with `rdl.setTopOffset(val);`
+- Option name: `topOffset`
 
 ## Examples
 

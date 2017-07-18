@@ -2,8 +2,9 @@
     <head>
         <script>
           onPageLoad = function(){
-            rdl.initRDocsLight();
-            rdl.setAutoPinning(true);
+            rdl.initRDocsLight({
+              autoPin: true
+            });
           }
         </script>
         <script src="rdocs-light.js"></script>

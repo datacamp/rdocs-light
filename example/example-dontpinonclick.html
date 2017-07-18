@@ -3,7 +3,9 @@
         <script>
           onPageLoad = function(){
             rdl.initRDocsLight();
-            rdl.setPinOnClick(false);
+            rdl.initRDocsLight({
+              pinOnClick: false
+            });
           }
         </script>
         <script src="rdocs-light.js"></script>

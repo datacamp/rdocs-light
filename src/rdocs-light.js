@@ -469,30 +469,36 @@ const notFoundView = require('./views/not-found.html');
     return wrapper.appendChild(toWrap);
   }
 
+  function setWidgetsForRdocLinks(find) {
+    if (find !== findRDocLinks) {
+      findRDocLinks = find;
+      if (findRDocLinks) {
+        findAllRDocLinks();
+      } else {
+        removeLinksAllRDocLinks();
+      }
+    }
+  }
+
   module.exports = {
-    initRDocsLight: (container) => {
-      createTooltip(container);
-      addBodyClickListener();
-      findAllRDocLightDataAttributes();
-    },
-    setTopOffset: (offset) => {
-      topOffset = offset;
-    },
-    setAutoPinning: (pin) => {
-      autoPin = pin;
-    },
-    setPinOnClick: (pin) => {
-      pinOnClick = pin;
-    },
-    setWidgetsForRdocLinks: (find) => {
-      if (find !== findRDocLinks) {
-        findRDocLinks = find;
-        if (findRDocLinks) {
-          findAllRDocLinks();
-        } else {
-          removeLinksAllRDocLinks();
+    initRDocsLight: (options) => {
+      if (options) {
+        if (options.topOffset !== undefined) {
+          topOffset = options.topOffset;
+        }
+        if (options.autoPin !== undefined) {
+          autoPin = options.autoPin;
+        }
+        if (options.pinOnClick !== undefined) {
+          pinOnClick = options.pinOnClick;
+        }
+        if (options.widgetForRDocsLinks !== undefined) {
+          setWidgetsForRdocLinks(options.widgetForRDocsLinks);
         }
       }
+      createTooltip((options) ? options.container : options);
+      addBodyClickListener();
+      findAllRDocLightDataAttributes();
     },
     autoLink: () => {
       const links = Array.from(document.querySelectorAll('[data-mini-rdoc]'));

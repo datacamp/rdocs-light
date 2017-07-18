@@ -1,26 +1,15 @@
 <html>
     <head>
         <script>
-          var autoPin = false;
           onPageload = function(){
-            rdl.initRDocsLight();
-            rdl.setAutoPinning(autoPin);
-            rdl.setWidgetsForRdocLinks(true);
-          }
-          toggleAutoPin = function(){
-            autoPin = !autoPin;
-            rdl.setAutoPinning(autoPin);
-            var toggler = document.getElementById('autoPinToggler');
-            if(autoPin)
-              toggler.innerText = 'Disable AutoPin';
-            else
-              toggler.innerText = 'Enable AutoPin';
-          }
+            rdl.initRDocsLight({
+              widgetsForRdocLinks: true,
+            });
+          };
         </script>
         <script src="rdocs-light.js"></script>
     </head>
     <body onload="onPageload()">
-        <button onclick="toggleAutoPin()" id="autoPinToggler">Enable AutoPin</button></br>
         <a data-mini-rdoc="ggplot2::aes_">aes_</a>
         <br>
         <a href="https://www.rdocumentation.org/packages/ggplot2/"
