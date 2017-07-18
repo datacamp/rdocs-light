@@ -5,6 +5,7 @@
           onPageload = function(){
             rdl.initRDocsLight();
             rdl.setAutoPinning(autoPin);
+            rdl.setWidgetsForRdocLinks(true);
           }
           toggleAutoPin = function(){
             autoPin = !autoPin;
@@ -20,8 +21,15 @@
     </head>
     <body onload="onPageload()">
         <button onclick="toggleAutoPin()" id="autoPinToggler">Enable AutoPin</button></br>
-        <a href="https://www.rdocumentation.org/packages/gpglot/topics/aes_"
-        data-mini-rdoc="ggplot2::aes_">aes_</a>
+        <a data-mini-rdoc="ggplot2::aes_">aes_</a>
+        <br>
+        <a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes_"
+        >aes_ (only link)</a>
+        </br>
+        <a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes_"
+        data-mini-rdoc="ggplot2::aes_">aes_ (both)</a>
+        </br>
+        <a href="https://www.datacamp.com">Random link</a>
         </br>
          <div data-mini-rdoc="base::ee::ee">error</div>
         <div data-mini-rdoc="base::date">date</div>

@@ -19,6 +19,7 @@ const notFoundView = require('./views/not-found.html');
   let topOffset = 0;
   let autoPin = false;
   let pinOnClick = true;
+  let findRDocLinks = false;
 
   function setAnchorsDisplay(display) {
     const anchors = document.getElementById('rdocs-light-tooltip-anchors');
@@ -232,7 +233,7 @@ const notFoundView = require('./views/not-found.html');
     return undefined;
   }
 
-  function parseURL(url) {
+  function parseRequestURL(url) {
     const result = parseTopicURL(url);
     if (result !== undefined) {
       return result;
@@ -242,7 +243,7 @@ const notFoundView = require('./views/not-found.html');
 
   function reqLoadListener() {
     const data = JSON.parse(this.responseText);
-    const requestInfo = parseURL(this.responseURL);
+    const requestInfo = parseRequestURL(this.responseURL);
 
     if (data.title !== undefined) {
       if (requestInfo.topic === undefined) {
@@ -282,6 +283,46 @@ const notFoundView = require('./views/not-found.html');
     return undefined;
   }
 
+  function getLocation(href) {
+    const l = document.createElement('a');
+    l.href = href;
+    return l;
+  }
+
+  const urlRegexes = [
+    '/packages/(.*)/versions/(.*)/topics/(.*)',
+    '/packages/(.*)/topics/(.*)',
+    '/packages/(.*)',
+  ];
+
+  function parseRDocLink(url) {
+    const l = getLocation(url);
+    if (!(l.hostname === 'rdocumentation.org' || l.hostname === 'www.rdocumentation.org')) {
+      return false;
+    }
+
+    let valid;
+    urlRegexes.some((urlRegexString) => {
+      const urlRegex = new RegExp(urlRegexString, 'g');
+      const match = urlRegex.exec(l.pathname);
+      if (match !== null) {
+        valid = {
+          package: match[1],
+        };
+        if (match.length === 4) {
+          valid.version = match[2];
+          valid.topic = match[3];
+        } else if (match.length === 3) {
+          valid.topic = match[2];
+        }
+        return true;
+      }
+      return false;
+    });
+
+    return valid;
+  }
+
   function sendRequest(data) {
     showLoader();
     const oReq = new XMLHttpRequest();
@@ -299,7 +340,13 @@ const notFoundView = require('./views/not-found.html');
     onLinkElement = true;
     const element = DOMElement;
     element.classList.add('rdocs-light-link-hovered');
-    const data = parseAttribute(element.getAttribute('data-mini-rdoc'));
+    let data;
+    if (element.hasAttribute('data-mini-rdoc')) {
+      data = parseAttribute(element.getAttribute('data-mini-rdoc'));
+    } else {
+      data = parseRDocLink(element.href);
+    }
+
     if (data !== undefined) {
       const visible = setToolTipPosition(element.getBoundingClientRect());
       if (visible) {
@@ -325,11 +372,33 @@ const notFoundView = require('./views/not-found.html');
     const links = document.querySelectorAll('[data-mini-rdoc]');
 
     if (links.length === 0) {
-      console.info('No RDocumentation links found.');
+      console.info('No data-mini-rdoc attributes found.');
     }
 
     links.forEach(linkElement => linkElement.addEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
     links.forEach(linkElement => linkElement.addEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
+  }
+
+  function findAllRDocLinks() {
+    if (findRDocLinks) {
+      let links = Array.from(document.querySelectorAll('a'));
+      if (links.length === 0) {
+        console.info('No RDocumentation links found.');
+      }
+      links = links.filter(link => parseRDocLink(link.href) !== undefined);
+      links = links.filter(link => !link.hasAttribute('data-mini-rdoc'));
+      links.forEach(linkElement => linkElement.addEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
+      links.forEach(linkElement => linkElement.addEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
+    }
+  }
+
+  function removeLinksAllRDocLinks() {
+    if (findRDocLinks) {
+      let links = document.querySelectorAll('a');
+      links = links.filter(link => !link.hasAttribute('data-mini-rdoc'));
+      links.forEach(linkElement => linkElement.removeEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
+      links.forEach(linkElement => linkElement.remvoeEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
+    }
   }
 
   function bodyClickListener(event) {
@@ -366,6 +435,16 @@ const notFoundView = require('./views/not-found.html');
     },
     setPinOnClick: (pin) => {
       pinOnClick = pin;
+    },
+    setWidgetsForRdocLinks: (find) => {
+      if (find !== findRDocLinks) {
+        findRDocLinks = find;
+        if (findRDocLinks) {
+          findAllRDocLinks();
+        } else {
+          removeLinksAllRDocLinks();
+        }
+      }
     },
   };
 })();
