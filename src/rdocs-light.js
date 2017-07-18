@@ -2,6 +2,7 @@ import './styles/main.scss';
 
 const packageView = require('./views/package.html');
 const topicView = require('./views/topic.html');
+const loaderView = require('./views/loader.html');
 
 (() => {
   const TOOLTIP_HEIGHT = 252;
@@ -133,6 +134,11 @@ const topicView = require('./views/topic.html');
     tooltip.style.left = `${left}px`;
 
     return true;
+  }
+
+  function showLoader() {
+    tooltip.innerHTML = loaderView;
+    showTooltip();
   }
 
   function setNavigation(url, anchors) {
@@ -269,32 +275,33 @@ const topicView = require('./views/topic.html');
     return undefined;
   }
 
-  function sendRequest(attribute) {
-    const data = parseAttribute(attribute);
-    if (data !== undefined) {
-      const oReq = new XMLHttpRequest();
-      oReq.addEventListener('load', reqLoadListener);
-      oReq.addEventListener('error', reqErrorListener, false);
-      let url = `${API_BASE_URL}/api/light/packages/${data.package}`;
-      if (data.topic !== undefined) {
-        url += `/topics/${data.topic}`;
-      }
-      oReq.open('get', url, true);
-      oReq.send();
-    } else {
-      console.warn('Invalid attribute value.');
+  function sendRequest(data) {
+    showLoader();
+    const oReq = new XMLHttpRequest();
+    oReq.addEventListener('load', reqLoadListener);
+    oReq.addEventListener('error', reqErrorListener, false);
+    let url = `${API_BASE_URL}/api/light/packages/${data.package}`;
+    if (data.topic !== undefined) {
+      url += `/topics/${data.topic}`;
     }
+    oReq.open('get', url, true);
+    oReq.send();
   }
 
   function linkElementMouseOverListener(DOMElement) {
     onLinkElement = true;
     const element = DOMElement;
     element.classList.add('rdocs-light-link-hovered');
-    const visible = setToolTipPosition(element.getBoundingClientRect());
-    if (visible) {
-      sendRequest(element.getAttribute('data-mini-rdoc'));
+    const data = parseAttribute(element.getAttribute('data-mini-rdoc'));
+    if (data !== undefined) {
+      const visible = setToolTipPosition(element.getBoundingClientRect());
+      if (visible) {
+        sendRequest(data);
+      } else {
+        console.info('Not enough space, rdocs light widget not shown.');
+      }
     } else {
-      console.info('Not enough space, rdocs light widget not shown.');
+      console.warn('Invalid attribute value.');
     }
   }
 
