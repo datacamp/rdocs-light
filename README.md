@@ -9,9 +9,9 @@ Html elements with the `data-mini-rdoc` attribute will show a tooltip with infor
 - Load rdocs-light.min.js in your webpage.
 - Call `rdl.initRDocsLight();` on page load
 
-### Auto Link to Rdocumentation
+### Auto Link to RDocumentation
 - Tags with the `data-mini-rdoc` attribute can be automatically changed to link to the documentation.
-- Can also be used standzlone (without initiating RDocsLight
+- Can also be used standzlone (without initiating RDocsLight)
 - Call `rdl.autoLink();`
 
 ### Options
