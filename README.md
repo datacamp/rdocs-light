@@ -52,6 +52,16 @@ If the version attribute is not provided:
 - Defaults to `0`
 - Option name: `topOffset`
 
+#### Show Usage Section For Topics
+- Whether or not to show the usage section in the widget
+- Default to `false`
+- Option name: `showTopicUsageSection`
+
+#### Show Arguments Section For Topics
+- Whether or not to show the arguments section in the widget
+- Default to `false`
+- Option name: `showTopicArgumentsSection`
+
 ## Examples
 
 You can find examples in the `example` folder in the repository.
