@@ -337,12 +337,12 @@ const notFoundView = require('./views/not-found.html');
     return parsePackageURL(url);
   }
 
-  function reqLoadListener() {
-    const data = JSON.parse(this.responseText);
-    const requestInfo = parseRequestURL(this.responseURL);
+  function reqLoadListener(response, url) {
+    const data = JSON.parse(response.responseText);
+    const requestInfo = parseRequestURL(url);
 
     if (data.title !== undefined) {
-      if (requestInfo.topic === undefined) {
+      if (!requestInfo.topic) {
         loadPackageData(data);
       } else {
         loadTopicData(data);
@@ -424,8 +424,6 @@ const notFoundView = require('./views/not-found.html');
     }
     showLoader();
     const oReq = new XMLHttpRequest();
-    oReq.addEventListener('load', reqLoadListener);
-    oReq.addEventListener('error', reqErrorListener, false);
     let url = `${API_BASE_URL}/api/light/packages/${data.package}`;
     if (data.version !== undefined) {
       url += `/versions/${data.version}`;
@@ -433,6 +431,8 @@ const notFoundView = require('./views/not-found.html');
     if (data.topic !== undefined) {
       url += `/topics/${data.topic}`;
     }
+    oReq.addEventListener('load', response => reqLoadListener(response.target, url));
+    oReq.addEventListener('error', reqErrorListener, false);
     oReq.open('get', url, true);
     oReq.send();
   }
