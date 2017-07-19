@@ -137,27 +137,39 @@ const notFoundView = require('./views/not-found.html');
     return { x, y };
   }
 
+  function posTop() {
+    if (typeof window.pageYOffset !== 'undefined') {
+      return window.pageYOffset;
+    } else if (document.documentElement.scrollTop) {
+      return document.documentElement.scrollTop;
+    } else if (document.body.scrollTop) {
+      return document.body.scrollTop;
+    }
+    return 0;
+  }
+
   function setToolTipPosition(box) {
-    const body = document.getElementsByTagName('body')[0];
+    const scrollTop = posTop();
+    const scrollLeft = document.body.scrollLeft;
     const screenSize = getCurrentVisibleHeightAndWidth();
 
     // Seems necessairy
     screenSize.x -= 25;
 
-    let top = (box.top + topOffset) + body.scrollTop - TOOLTIP_HEIGHT;
-    let left = box.left - body.scrollLeft;
+    let top = (box.top + topOffset) + scrollTop - TOOLTIP_HEIGHT;
+    let left = box.left - scrollLeft;
 
     if (left + TOOLTIP_WIDTH > screenSize.x) {
-      left = screenSize.x - TOOLTIP_WIDTH + body.scrollLeft;
+      left = screenSize.x - TOOLTIP_WIDTH + scrollLeft;
       if (left < 0) {
         hideTooltip();
         return false;
       }
     }
 
-    if (top < body.scrollTop) {
-      top = box.bottom + body.scrollTop;
-      if (top + TOOLTIP_HEIGHT > screenSize.y + body.scrollTop) {
+    if (top < scrollTop) {
+      top = box.bottom + scrollTop;
+      if (top + TOOLTIP_HEIGHT > screenSize.y + scrollTop) {
         hideTooltip();
         return false;
       }
