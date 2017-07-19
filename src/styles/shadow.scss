@@ -97,39 +97,3 @@
 .rdocs-light-link-hovered{
     color: blue;
 }
-
-.rdocs-light-button {
-    border: none;
-    display: inline-block;
-    text-decoration: none;
-    border-radius: $button-radius;
-    font-size: $button-font-size;
-    font-weight: $button-font-weight;
-    line-height: $button-line-height;
-    padding: 0.5rem 1.875rem;
-    transition: background-color $default-duration ease, color $default-duration ease;
-    text-align: center;
-
-    &:hover, &:focus, &:active:focus {
-        outline: none;
-    }
-
-    .fa {
-        margin-right: 0.5rem;
-    }
-}
-
-@mixin rdocs-light-color-button($bg, $color, $hover){
-    background-color: $bg;
-    color: $color;
-    &:hover,
-    &:focus { background-color: $hover; color: $color;}
-}
-
-.rdocs-light-button-primary {
-    @include rdocs-light-color-button($accent, $accent-dark, $accent-light);
-}
-
-.rdocs-light-button-secondary {
-    @include rdocs-light-color-button($primary-light, $text-invert, $primary-lighter);
-}
