@@ -346,9 +346,6 @@ const notFoundView = require('./views/not-found.html');
       } else {
         loadTopicData(data);
       }
-      if (autoPin) {
-        tooltipIsPinned = true;
-      }
       showTooltip();
     } else {
       let text = `No documentation found for the package '${requestInfo.package}'`;
@@ -421,6 +418,9 @@ const notFoundView = require('./views/not-found.html');
   }
 
   function sendRequest(data) {
+    if (autoPin) {
+      tooltipIsPinned = true;
+    }
     showLoader();
     const oReq = new XMLHttpRequest();
     oReq.addEventListener('load', reqLoadListener);
