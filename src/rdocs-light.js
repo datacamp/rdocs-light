@@ -507,7 +507,7 @@ const notFoundView = require('./views/not-found.html');
 
   function bodyClickListener(event) {
     if (tooltipIsPinned) {
-      let e = event.toElement || event.relatedTarget;
+      let e = event.target || event.toElement || event.relatedTarget;
       if (e !== null) {
         do {
           if (e === tooltip) {
