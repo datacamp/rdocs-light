@@ -1,3 +1,4 @@
+import 'core-js/fn/array/from';
 import './styles/main.scss';
 
 const css = require('./styles/shadow.scss').toString();
@@ -478,8 +479,8 @@ const notFoundView = require('./views/not-found.html');
       console.info('No data-mini-rdoc attributes found.');
     }
 
-    links.forEach(linkElement => linkElement.addEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
-    links.forEach(linkElement => linkElement.addEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
+    Array.from(links).forEach(linkElement => linkElement.addEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
+    Array.from(links).forEach(linkElement => linkElement.addEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
   }
 
   function findAllRDocLinks() {
@@ -488,19 +489,19 @@ const notFoundView = require('./views/not-found.html');
       if (links.length === 0) {
         console.info('No RDocumentation links found.');
       }
-      links = links.filter(link => parseRDocLink(link.href) !== undefined);
-      links = links.filter(link => !link.hasAttribute('data-mini-rdoc'));
-      links.forEach(linkElement => linkElement.addEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
-      links.forEach(linkElement => linkElement.addEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
+      links = Array.from(links).filter(link => parseRDocLink(link.href) !== undefined);
+      links = Array.from(links).filter(link => !link.hasAttribute('data-mini-rdoc'));
+      Array.from(links).forEach(linkElement => linkElement.addEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
+      Array.from(links).forEach(linkElement => linkElement.addEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
     }
   }
 
   function removeLinksAllRDocLinks() {
     if (findRDocLinks) {
       let links = document.querySelectorAll('a');
-      links = links.filter(link => !link.hasAttribute('data-mini-rdoc'));
-      links.forEach(linkElement => linkElement.removeEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
-      links.forEach(linkElement => linkElement.remvoeEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
+      links = Array.from(links).filter(link => !link.hasAttribute('data-mini-rdoc'));
+      Array.from(links).forEach(linkElement => linkElement.removeEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
+      Array.from(links).forEach(linkElement => linkElement.remvoeEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
     }
   }
 
@@ -592,7 +593,7 @@ const notFoundView = require('./views/not-found.html');
     },
     autoLink: () => {
       const links = Array.from(document.querySelectorAll('[data-mini-rdoc]'));
-      links.forEach((link) => {
+      Array.from(links).forEach((link) => {
         const attribute = link.getAttribute('data-mini-rdoc');
         const versionAttribute = link.getAttribute('data-mini-rdoc-version');
         const url = getLinkFromTag(attribute, versionAttribute);
