@@ -171,7 +171,7 @@ const notFoundView = require('./views/not-found.html');
   function loadShadowStyle() {
     const style = document.createElement('style');
     style.setAttribute('type', 'text/css');
-    style.innerText = css;
+    style.innerHTML = css;
     shadowRoot.appendChild(style);
   }
 
