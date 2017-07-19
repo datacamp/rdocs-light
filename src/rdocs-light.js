@@ -20,6 +20,25 @@ const notFoundView = require('./views/not-found.html');
   let tooltipIsPinned = false;
   let visibleAnchorsAreHidden = false;
 
+  const selectors = {
+    anchors: '#rdocs-light-tooltip-anchors',
+    title: '#rdocs-light-tooltip-title',
+    desc: '#rdocs-light-tooltip-description',
+    h_topic: '#rdocs-light-tooltip-header-topic',
+    h_package: '#rdocs-light-tooltip-header-package',
+    h_version: '#rdocs-light-tooltip-header-version',
+    tag: 'data-mini-rdoc',
+    tagv: 'data-mini-rdoc-version',
+    hover: 'rdocs-light-link-hovered',
+    usage: '#rdocs-light-tooltip-usage',
+    usagec: '#rdocs-light-tooltip-usage-content',
+    args: '#rdocs-light-tooltip-arguments',
+    argsc: '#rdocs-light-tooltip-arguments-content',
+    tt: 'rdocs-light-tooltip',
+    ttc: 'rdocs-light-tooltip-container',
+    arrow: '.rdocs-light-arrow',
+    nav: '#rdocs-light-nav',
+  };
 
   let topOffset = 0;
   let autoPin = false;
@@ -29,14 +48,14 @@ const notFoundView = require('./views/not-found.html');
   let showTopicArgumentsSection = false;
 
   function setAnchorsDisplay(display) {
-    const anchors = shadowRoot.querySelector('#rdocs-light-tooltip-anchors');
+    const anchors = shadowRoot.querySelector(selectors.anchors);
     if (anchors !== null) {
       anchors.style.display = display;
     }
   }
 
   function getAnchorsDisplay() {
-    const anchors = shadowRoot.querySelector('#rdocs-light-tooltip-anchors');
+    const anchors = shadowRoot.querySelector(selectors.anchors);
     if (anchors !== null) {
       return anchors.style.display;
     }
@@ -112,9 +131,9 @@ const notFoundView = require('./views/not-found.html');
       pageContainer = document.getElementsByTagName('body')[0];
     }
     const containerDiv = document.createElement('div');
-    containerDiv.setAttribute('id', 'rdocs-light-tooltip');
+    containerDiv.setAttribute('id', selectors.tt);
     pageContainer.appendChild(containerDiv);
-    tooltip = document.querySelector('#rdocs-light-tooltip');
+    tooltip = document.querySelector(`#${selectors.tt}`);
     shadowRoot = tooltip;
     if (document.head.attachShadow) {
       shadowRoot = tooltip.attachShadow({ mode: 'open' });
@@ -189,7 +208,7 @@ const notFoundView = require('./views/not-found.html');
 
   function loadView(view) {
     const container = document.createElement('div');
-    container.setAttribute('id', 'rdocs-light-tooltip-container');
+    container.setAttribute('id', selectors.ttc);
     container.innerHTML = view;
     shadowRoot.innerHTML = '';
     shadowRoot.appendChild(container);
@@ -203,13 +222,13 @@ const notFoundView = require('./views/not-found.html');
 
   function showNotFound(text) {
     loadView(notFoundView);
-    shadowRoot.querySelector('#rdocs-light-tooltip-title').innerText = text;
+    shadowRoot.querySelector(selectors.title).innerText = text;
     showTooltip();
   }
 
   function setNavigation(url, anchors) {
-    const arrows = Array.from(shadowRoot.querySelectorAll('.rdocs-light-arrow'));
-    const nav = shadowRoot.querySelector('#rdocs-light-nav');
+    const arrows = Array.from(shadowRoot.querySelectorAll(selectors.arrow));
+    const nav = shadowRoot.querySelector(selectors.nav);
     nav.innerHTML = '';
     let addedElements = 0;
     anchors.forEach((anchor) => {
@@ -246,13 +265,12 @@ const notFoundView = require('./views/not-found.html');
 
   function loadPackageData(data) {
     loadView(packageView);
-    shadowRoot.querySelector('#rdocs-light-tooltip-title').innerHTML = data.title;
-    shadowRoot.querySelector('#rdocs-light-tooltip-description').innerHTML = data.description || '';
-    shadowRoot.querySelector('#rdocs-light-tooltip-link').href = data.uri;
-    const packageVersion = shadowRoot.querySelector('#rdocs-light-tooltip-header-package');
+    shadowRoot.querySelector(selectors.title).innerHTML = data.title;
+    shadowRoot.querySelector(selectors.desc).innerHTML = data.description || '';
+    const packageVersion = shadowRoot.querySelector(selectors.h_package);
     packageVersion.innerText = data.package_name;
     packageVersion.href = data.url;
-    const version = shadowRoot.querySelector('#rdocs-light-tooltip-header-version');
+    const version = shadowRoot.querySelector(selectors.h_version);
     version.innerText = `v${data.version.version}`;
     version.href = data.version.url;
 
@@ -272,30 +290,29 @@ const notFoundView = require('./views/not-found.html');
   function loadTopicData(data) {
     loadView(topicView);
 
-    shadowRoot.querySelector('#rdocs-light-tooltip-title').innerHTML = data.title;
-    shadowRoot.querySelector('#rdocs-light-tooltip-description').innerHTML = data.description || '';
-    shadowRoot.querySelector('#rdocs-light-tooltip-link').href = data.url;
-    const topic = shadowRoot.querySelector('#rdocs-light-tooltip-header-topic');
+    shadowRoot.querySelector(selectors.title).innerHTML = data.title;
+    shadowRoot.querySelector(selectors.desc).innerHTML = data.description || '';
+    const topic = shadowRoot.querySelector(selectors.h_topic);
     topic.innerText = data.name;
     topic.href = data.url;
-    const packageVersion = shadowRoot.querySelector('#rdocs-light-tooltip-header-package');
+    const packageVersion = shadowRoot.querySelector(selectors.h_package);
     packageVersion.innerText = `${data.package_version.package_name} v${data.package_version.version}`;
     packageVersion.href = data.package_version.url;
 
-    const usageDiv = shadowRoot.querySelector('#rdocs-light-tooltip-usage');
+    const usageDiv = shadowRoot.querySelector(selectors.usage);
     if (!showTopicUsageSection || !data.usage) {
       usageDiv.style.display = 'none';
     } else {
-      const usageContentDiv = shadowRoot.querySelector('#rdocs-light-tooltip-usage-content');
+      const usageContentDiv = shadowRoot.querySelector(selectors.usagec);
       usageContentDiv.innerHTML = `<code>${data.usage}</code>`;
       usageDiv.style.display = 'block';
     }
 
-    const argumentsDiv = shadowRoot.querySelector('#rdocs-light-tooltip-arguments');
+    const argumentsDiv = shadowRoot.querySelector(selectors.args);
     if (!showTopicArgumentsSection || data.arguments.length === 0) {
       argumentsDiv.style.display = 'none';
     } else {
-      const argumentsContentDiv = shadowRoot.querySelector('#rdocs-light-tooltip-arguments-content');
+      const argumentsContentDiv = shadowRoot.querySelector(selectors.argsc);
       argumentsContentDiv.innerHTML = createArgumentsList(data.arguments);
       argumentsDiv.style.display = 'block';
     }
@@ -452,12 +469,12 @@ const notFoundView = require('./views/not-found.html');
   function linkElementMouseOverListener(DOMElement) {
     onLinkElement = true;
     const element = DOMElement;
-    element.classList.add('rdocs-light-link-hovered');
+    element.classList.add(selectors.hover);
     let data;
-    if (element.hasAttribute('data-mini-rdoc')) {
-      data = parseAttribute(element.getAttribute('data-mini-rdoc'));
-      if (element.hasAttribute('data-mini-rdoc-version')) {
-        data.version = element.getAttribute('data-mini-rdoc-version');
+    if (element.hasAttribute(selectors.tag)) {
+      data = parseAttribute(element.getAttribute(selectors.tag));
+      if (element.hasAttribute(selectors.tagv)) {
+        data.version = element.getAttribute(selectors.tagv);
       }
     } else {
       data = parseRDocLink(element.href);
@@ -477,7 +494,7 @@ const notFoundView = require('./views/not-found.html');
 
   function linkElementMouseOutListener(DOMElement) {
     const element = DOMElement;
-    element.classList.remove('rdocs-light-link-hovered');
+    element.classList.remove(selectors.hover);
     onLinkElement = false;
     if (!onTooltip) {
       hideTooltip();
@@ -485,10 +502,10 @@ const notFoundView = require('./views/not-found.html');
   }
 
   function findAllRDocLightDataAttributes() {
-    const links = document.querySelectorAll('[data-mini-rdoc]');
+    const links = document.querySelectorAll(`[${selectors.tag}]`);
 
     if (links.length === 0) {
-      console.info('No data-mini-rdoc attributes found.');
+      console.info(`No ${selectors.tag} attributes found.`);
     }
 
     Array.from(links).forEach(linkElement => linkElement.addEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
@@ -502,7 +519,7 @@ const notFoundView = require('./views/not-found.html');
         console.info('No RDocumentation links found.');
       }
       links = Array.from(links).filter(link => parseRDocLink(link.href) !== undefined);
-      links = Array.from(links).filter(link => !link.hasAttribute('data-mini-rdoc'));
+      links = Array.from(links).filter(link => !link.hasAttribute(selectors.tag));
       Array.from(links).forEach(linkElement => linkElement.addEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
       Array.from(links).forEach(linkElement => linkElement.addEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
     }
@@ -511,7 +528,7 @@ const notFoundView = require('./views/not-found.html');
   function removeLinksAllRDocLinks() {
     if (findRDocLinks) {
       let links = document.querySelectorAll('a');
-      links = Array.from(links).filter(link => !link.hasAttribute('data-mini-rdoc'));
+      links = Array.from(links).filter(link => !link.hasAttribute(selectors.tag));
       Array.from(links).forEach(linkElement => linkElement.removeEventListener('mouseover', () => linkElementMouseOverListener(linkElement)));
       Array.from(links).forEach(linkElement => linkElement.remvoeEventListener('mouseout', () => linkElementMouseOutListener(linkElement)));
     }
@@ -604,10 +621,10 @@ const notFoundView = require('./views/not-found.html');
       findAllRDocLightDataAttributes();
     },
     autoLink: () => {
-      const links = Array.from(document.querySelectorAll('[data-mini-rdoc]'));
+      const links = Array.from(document.querySelectorAll(`[${selectors.tag}]`));
       Array.from(links).forEach((link) => {
-        const attribute = link.getAttribute('data-mini-rdoc');
-        const versionAttribute = link.getAttribute('data-mini-rdoc-version');
+        const attribute = link.getAttribute(selectors.tag);
+        const versionAttribute = link.getAttribute(selectors.tagv);
         const url = getLinkFromTag(attribute, versionAttribute);
         if (url !== undefined) {
           if (link.nodeName === 'A') {
