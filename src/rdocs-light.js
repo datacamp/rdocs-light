@@ -20,6 +20,8 @@ const notFoundView = require('./views/not-found.html');
   let autoPin = false;
   let pinOnClick = true;
   let findRDocLinks = false;
+  let showTopicUsageSection = false;
+  let showTopicArgumentsSection = false;
 
   function setAnchorsDisplay(display) {
     const anchors = document.getElementById('rdocs-light-tooltip-anchors');
@@ -153,17 +155,21 @@ const notFoundView = require('./views/not-found.html');
     const arrows = Array.from(document.getElementsByClassName('rdocs-light-arrow'));
     const nav = document.getElementById('rdocs-light-nav');
     nav.innerHTML = '';
+    let addedElements = 0;
     anchors.forEach((anchor) => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = `${url}#${anchor.anchor}`;
-      a.target = '_blank';
-      a.innerText = anchor.title;
-      li.appendChild(a);
-      nav.appendChild(li);
+      if (!((anchor.title === 'usage' && showTopicUsageSection) || (anchor.title === 'arguments' && showTopicArgumentsSection))) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `${url}#${anchor.anchor}`;
+        a.target = '_blank';
+        a.innerText = anchor.title;
+        li.appendChild(a);
+        nav.appendChild(li);
+        addedElements++;
+      }
     });
 
-    if (anchors.length <= 4) {
+    if (addedElements <= 4) {
       arrows.forEach((arrow) => {
         arrow.style.visibility = 'hidden';
       });
@@ -188,7 +194,18 @@ const notFoundView = require('./views/not-found.html');
     const version = document.getElementById('rdocs-light-tooltip-header-version');
     version.innerText = `v${data.version.version}`;
     version.href = data.version.url;
+
     setNavigation(data.url, data.anchors);
+  }
+
+  function createArgumentsList(topicArguments) {
+    let html = '<dl>';
+    topicArguments.forEach((argument) => {
+      html += `<dt>${argument.name}</dt><dd>${argument.description}</dd>`;
+    });
+    html += '</dl>';
+
+    return html;
   }
 
   function loadTopicData(data) {
@@ -202,6 +219,24 @@ const notFoundView = require('./views/not-found.html');
     const packageVersion = document.getElementById('rdocs-light-tooltip-header-package');
     packageVersion.innerText = `${data.package_version.package_name} v${data.package_version.version}`;
     packageVersion.href = data.package_version.url;
+
+    const usageDiv = document.getElementById('rdocs-light-tooltip-usage');
+    if (!showTopicUsageSection) {
+      usageDiv.style.display = 'none';
+    } else {
+      const usageContentDiv = document.getElementById('rdocs-light-tooltip-usage-content');
+      usageContentDiv.innerHTML = `<code>${(data.usage) ? data.usage : ''}</code>`;
+      usageDiv.style.display = 'block';
+    }
+
+    const argumentsDiv = document.getElementById('rdocs-light-tooltip-arguments');
+    if (!showTopicArgumentsSection) {
+      argumentsDiv.style.display = 'none';
+    } else {
+      const argumentsContentDiv = document.getElementById('rdocs-light-tooltip-arguments-content');
+      argumentsContentDiv.innerHTML = createArgumentsList(data.arguments);
+      argumentsDiv.style.display = 'block';
+    }
 
     setNavigation(data.url, data.anchors);
   }
@@ -494,6 +529,12 @@ const notFoundView = require('./views/not-found.html');
         }
         if (options.widgetForRDocsLinks !== undefined) {
           setWidgetsForRdocLinks(options.widgetForRDocsLinks);
+        }
+        if (options.showTopicUsageSection !== undefined) {
+          showTopicUsageSection = options.showTopicUsageSection;
+        }
+        if (options.showTopicArgumentsSection !== undefined) {
+          showTopicArgumentsSection = options.showTopicArgumentsSection;
         }
       }
       createTooltip((options) ? options.container : options);

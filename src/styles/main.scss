@@ -20,6 +20,7 @@
     overflow-x: hidden  !important;
     display: flex;
     flex-flow: column;
+    color: #3a3a3a;
     code {
       display: inline-block;
       line-height: 1;
@@ -30,6 +31,23 @@
       font-size: 0.8rem;
       background-color: #eaeef3;
       border-radius: 3px;
+    }
+    dl dd {
+      margin-left: 40px;
+      margin-bottom: 1rem;
+    }
+    dd {
+      p {font-weight: 300}
+    }
+    dl:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    dl dt{
+      font-weight: bold;
+      float: left;
+      margin-right: 15px;
     }
 }
 
@@ -46,7 +64,7 @@
         font-size: $h3-size;
         margin-top: 0.3rem;
         -webkit-margin-after: 0px;
-        margin-top: 0.3rem;
+        line-height: 1.5 !important;
     }
 }
 

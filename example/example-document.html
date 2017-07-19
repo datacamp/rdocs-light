@@ -2,7 +2,10 @@
     <head>
         <script>
           onPageLoad = function(){
-            rdl.initRDocsLight();
+            rdl.initRDocsLight({
+              showTopicUsageSection: true,
+              showTopicArgumentsSection: true,
+            });
           }
         </script>
         <script src="rdocs-light.js"></script>
