@@ -2,16 +2,8 @@
 @import './_nav.scss';
 @import './_loader.scss';
 
-#rdocs-light-tooltip{
-    visibility: hidden;
-    position: absolute;
-    border: 1px solid $primary-lighter;
+#rdocs-light-tooltip-container{
     background-color: $primary-extra-light;
-    z-index: 10;
-    height: $tooltip-height;
-    width: 370px;
-    padding: $tooltip-padding;
-    border-radius: 10px;
     font-size: $default-font-size !important;
     font-family: $font-family !important;
     line-height: $default-line-height !important;

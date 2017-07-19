@@ -27,7 +27,7 @@ const notFoundView = require('./views/not-found.html');
   let showTopicArgumentsSection = false;
 
   function setAnchorsDisplay(display) {
-    const anchors = shadowRoot.getElementById('rdocs-light-tooltip-anchors');
+    const anchors = shadowRoot.querySelector('#rdocs-light-tooltip-anchors');
     if (anchors !== null) {
       anchors.style.display = display;
     }
@@ -97,8 +97,11 @@ const notFoundView = require('./views/not-found.html');
     const containerDiv = document.createElement('div');
     containerDiv.setAttribute('id', 'rdocs-light-tooltip');
     pageContainer.appendChild(containerDiv);
-    tooltip = document.getElementById('rdocs-light-tooltip');
-    shadowRoot = tooltip.attachShadow({ mode: 'open' });
+    tooltip = document.querySelector('#rdocs-light-tooltip');
+    shadowRoot = tooltip;
+    if (document.head.attachShadow) {
+      shadowRoot = tooltip.attachShadow({ mode: 'open' });
+    }
     // shadowRoot.appendChild(div);
     // tooltip = shadowRoot.getElementById('rdocs-light-tooltip');
     tooltip.addEventListener('mouseover', event => onTooltipOverListener(event));
@@ -150,12 +153,17 @@ const notFoundView = require('./views/not-found.html');
 
   function loadShadowStyle() {
     const style = document.createElement('style');
+    style.setAttribute('type', 'text/css');
     style.innerText = css;
     shadowRoot.appendChild(style);
   }
 
   function loadView(view) {
-    tooltip.shadowRoot.innerHTML = view;
+    const container = document.createElement('div');
+    container.setAttribute('id', 'rdocs-light-tooltip-container');
+    container.innerHTML = view;
+    shadowRoot.innerHTML = '';
+    shadowRoot.appendChild(container);
     loadShadowStyle();
   }
 
@@ -166,13 +174,13 @@ const notFoundView = require('./views/not-found.html');
 
   function showNotFound(text) {
     loadView(notFoundView);
-    shadowRoot.getElementById('rdocs-light-tooltip-title').innerText = text;
+    shadowRoot.querySelector('#rdocs-light-tooltip-title').innerText = text;
     showTooltip();
   }
 
   function setNavigation(url, anchors) {
     const arrows = Array.from(shadowRoot.querySelectorAll('.rdocs-light-arrow'));
-    const nav = shadowRoot.getElementById('rdocs-light-nav');
+    const nav = shadowRoot.querySelector('#rdocs-light-nav');
     nav.innerHTML = '';
     let addedElements = 0;
     anchors.forEach((anchor) => {
@@ -204,13 +212,13 @@ const notFoundView = require('./views/not-found.html');
 
   function loadPackageData(data) {
     loadView(packageView);
-    shadowRoot.getElementById('rdocs-light-tooltip-title').innerHTML = data.title;
-    shadowRoot.getElementById('rdocs-light-tooltip-description').innerHTML = data.description || '';
-    shadowRoot.getElementById('rdocs-light-tooltip-link').href = data.uri;
-    const packageVersion = shadowRoot.getElementById('rdocs-light-tooltip-header-package');
+    shadowRoot.querySelector('#rdocs-light-tooltip-title').innerHTML = data.title;
+    shadowRoot.querySelector('#rdocs-light-tooltip-description').innerHTML = data.description || '';
+    shadowRoot.querySelector('#rdocs-light-tooltip-link').href = data.uri;
+    const packageVersion = shadowRoot.querySelector('#rdocs-light-tooltip-header-package');
     packageVersion.innerText = data.package_name;
     packageVersion.href = data.url;
-    const version = shadowRoot.getElementById('rdocs-light-tooltip-header-version');
+    const version = shadowRoot.querySelector('#rdocs-light-tooltip-header-version');
     version.innerText = `v${data.version.version}`;
     version.href = data.version.url;
 
@@ -230,30 +238,30 @@ const notFoundView = require('./views/not-found.html');
   function loadTopicData(data) {
     loadView(topicView);
 
-    shadowRoot.getElementById('rdocs-light-tooltip-title').innerHTML = data.title;
-    shadowRoot.getElementById('rdocs-light-tooltip-description').innerHTML = data.description || '';
-    shadowRoot.getElementById('rdocs-light-tooltip-link').href = data.url;
-    const topic = shadowRoot.getElementById('rdocs-light-tooltip-header-topic');
+    shadowRoot.querySelector('#rdocs-light-tooltip-title').innerHTML = data.title;
+    shadowRoot.querySelector('#rdocs-light-tooltip-description').innerHTML = data.description || '';
+    shadowRoot.querySelector('#rdocs-light-tooltip-link').href = data.url;
+    const topic = shadowRoot.querySelector('#rdocs-light-tooltip-header-topic');
     topic.innerText = data.name;
     topic.href = data.url;
-    const packageVersion = shadowRoot.getElementById('rdocs-light-tooltip-header-package');
+    const packageVersion = shadowRoot.querySelector('#rdocs-light-tooltip-header-package');
     packageVersion.innerText = `${data.package_version.package_name} v${data.package_version.version}`;
     packageVersion.href = data.package_version.url;
 
-    const usageDiv = shadowRoot.getElementById('rdocs-light-tooltip-usage');
+    const usageDiv = shadowRoot.querySelector('#rdocs-light-tooltip-usage');
     if (!showTopicUsageSection) {
       usageDiv.style.display = 'none';
     } else {
-      const usageContentDiv = shadowRoot.getElementById('rdocs-light-tooltip-usage-content');
+      const usageContentDiv = shadowRoot.querySelector('#rdocs-light-tooltip-usage-content');
       usageContentDiv.innerHTML = `<code>${(data.usage) ? data.usage : ''}</code>`;
       usageDiv.style.display = 'block';
     }
 
-    const argumentsDiv = shadowRoot.getElementById('rdocs-light-tooltip-arguments');
+    const argumentsDiv = shadowRoot.querySelector('#rdocs-light-tooltip-arguments');
     if (!showTopicArgumentsSection) {
       argumentsDiv.style.display = 'none';
     } else {
-      const argumentsContentDiv = shadowRoot.getElementById('rdocs-light-tooltip-arguments-content');
+      const argumentsContentDiv = shadowRoot.querySelector('#rdocs-light-tooltip-arguments-content');
       argumentsContentDiv.innerHTML = createArgumentsList(data.arguments);
       argumentsDiv.style.display = 'block';
     }
