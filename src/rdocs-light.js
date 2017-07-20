@@ -123,8 +123,6 @@ const notFoundView = require('./views/not-found.html');
   }
 
   function createTooltip(container) {
-    // const div = document.createElement('div');
-    // div.setAttribute('id', 'rdocs-light-tooltip');
     if (container !== undefined) {
       pageContainer = container;
     } else {
@@ -134,12 +132,14 @@ const notFoundView = require('./views/not-found.html');
     containerDiv.setAttribute('id', selectors.tt);
     pageContainer.appendChild(containerDiv);
     tooltip = document.querySelector(`#${selectors.tt}`);
+
     shadowRoot = tooltip;
+
+    // Try attaching a real shadow, not supported in all browsers
     if (document.head.attachShadow) {
       shadowRoot = tooltip.attachShadow({ mode: 'open' });
     }
-    // shadowRoot.appendChild(div);
-    // tooltip = shadowRoot.getElementById('rdocs-light-tooltip');
+
     tooltip.addEventListener('mouseover', event => onTooltipOverListener(event));
     tooltip.addEventListener('mouseout', event => onTooltipOutListener(event));
     tooltip.addEventListener('click', () => onTooltipClickListener());
