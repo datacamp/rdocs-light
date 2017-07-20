@@ -1,6 +1,6 @@
 {
   "name": "rdocs-light",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Embeddable RDocumentation widget",
   "main": "src/rdocs-light.js",
   "scripts": {
@@ -37,6 +37,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "webpack": "^3.2.0",
+    "webpack-auto-inject-version": "^0.5.14",
     "webpack-dotenv-plugin": "^2.0.2",
     "yargs": "^8.0.2"
   },

@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const env = require('yargs').argv.env;
 const DotenvPlugin = require('webpack-dotenv-plugin');
+const WebpackAutoInject = require('webpack-auto-inject-version');
 
 const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 const libraryName = 'rdocs-light';
@@ -11,6 +12,14 @@ const plugins = [
   new DotenvPlugin({
     sample: './.env.example',
     path: './.env',
+  }),
+  new WebpackAutoInject({
+    components: {
+      AutoIncreaseVersion: false,
+      InjectAsComment: {
+        tag: 'Build version: {version} - {date}',
+      },
+    },
   }),
 ];
 let outputFile;
