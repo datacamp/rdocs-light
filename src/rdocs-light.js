@@ -263,18 +263,43 @@ const notFoundView = require('./views/not-found.html');
     }
   }
 
+  function addAnchorItem(items, item, title, anchor) {
+    if (item !== undefined && item !== null &&
+    (!Object.prototype.toString.call(item) === '[object Array]' || item.length > 0)) {
+      items.push({
+        title,
+        anchor,
+      });
+    }
+  }
+
+  function listPackageAnchors(packageData) {
+    const anchors = [];
+    addAnchorItem(anchors, packageData.version.readmemd, 'readme', 'readme');
+    addAnchorItem(anchors, packageData.version.topics, 'topics', 'functions');
+    // vignettes aren only sent in the api when a specific version is requested
+    addAnchorItem(anchors, packageData.vignettes, 'vignettes', 'vignettes');
+    addAnchorItem(anchors, [true], 'downloads', 'downloads');
+    addAnchorItem(anchors, [true], 'details', 'details');
+    return anchors;
+  }
+
+  function toAbsoluteURL(uri) {
+    return process.env.API_BASE_URL + uri;
+  }
+
   function loadPackageData(data) {
     loadView(packageView);
     shadowRoot.querySelector(selectors.title).innerHTML = data.title;
     shadowRoot.querySelector(selectors.desc).innerHTML = data.description || '';
     const packageVersion = shadowRoot.querySelector(selectors.h_package);
     packageVersion.innerText = data.package_name;
-    packageVersion.href = data.url;
+    packageVersion.href = data.uri;
     const version = shadowRoot.querySelector(selectors.h_version);
-    version.innerText = `v${data.version.version}`;
-    version.href = data.version.url;
+    version.innerText = `v${data.version}`;
+    version.href = data.version_url;
 
-    setNavigation(data.url, data.anchors);
+    setNavigation(toAbsoluteURL(data.uri), listPackageAnchors(data));
   }
 
   function createArgumentsList(topicArguments) {
@@ -285,6 +310,23 @@ const notFoundView = require('./views/not-found.html');
     html += '</dl>';
 
     return html;
+  }
+
+  function listTopicAnchors(topic) {
+    const anchors = [];
+
+    addAnchorItem(anchors, topic.keywords, 'keywords', 'l_keywords');
+    addAnchorItem(anchors, topic.usage, 'usage', 'l_usage');
+    addAnchorItem(anchors, topic.arguments, 'arguments', 'l_arguments');
+    addAnchorItem(anchors, topic.details, 'details', 'l_details');
+    addAnchorItem(anchors, topic.value, 'value', 'l_value');
+    addAnchorItem(anchors, topic.note, 'note', 'l_note');
+    addAnchorItem(anchors, topic.sections, 'sections', 'l_sections');
+    addAnchorItem(anchors, topic.references, 'references', 'l_references');
+    addAnchorItem(anchors, topic.seealso, 'see also', 'l_seealso');
+    addAnchorItem(anchors, topic.examples, 'examples', 'l_examples');
+
+    return anchors;
   }
 
   function loadTopicData(data) {
@@ -317,7 +359,7 @@ const notFoundView = require('./views/not-found.html');
       argumentsDiv.style.display = 'block';
     }
 
-    setNavigation(data.url, data.anchors);
+    setNavigation(data.url, listTopicAnchors(data));
   }
 
   function parseVersions(part) {
@@ -335,7 +377,7 @@ const notFoundView = require('./views/not-found.html');
   }
 
   function parseTopicURL(url) {
-    const urlRegexString = `${API_BASE_URL}/api/light/packages/(.*)/topics/(.*)`;
+    const urlRegexString = `${API_BASE_URL}/api/packages/(.*)/topics/(.*)`;
     const urlRegex = new RegExp(urlRegexString, 'g');
     const match = urlRegex.exec(url);
     if (match !== null) {
@@ -348,7 +390,7 @@ const notFoundView = require('./views/not-found.html');
   }
 
   function parsePackageURL(url) {
-    const urlRegexString = `${API_BASE_URL}/api/light/packages/(.*)`;
+    const urlRegexString = `${API_BASE_URL}/api/packages/(.*)`;
     const urlRegex = new RegExp(urlRegexString, 'g');
     const match = urlRegex.exec(url);
     if (match !== null) {
@@ -367,11 +409,15 @@ const notFoundView = require('./views/not-found.html');
   }
 
   function reqLoadListener(response, url) {
-    const data = JSON.parse(response.responseText);
+    let data = JSON.parse(response.responseText);
     const requestInfo = parseRequestURL(url);
 
-    if (data.title !== undefined) {
+    delete data.fromCache;
+    if (Object.keys(data).length > 0) {
       if (!requestInfo.topic) {
+        if (!requestInfo.version) {
+          data = data.versions[data.versions.length - 1];
+        }
         loadPackageData(data);
       } else {
         loadTopicData(data);
@@ -453,7 +499,7 @@ const notFoundView = require('./views/not-found.html');
     }
     showLoader();
     const oReq = new XMLHttpRequest();
-    let url = `${API_BASE_URL}/api/light/packages/${data.package}`;
+    let url = `${API_BASE_URL}/api/packages/${data.package}`;
     if (data.version !== undefined) {
       url += `/versions/${data.version}`;
     }
