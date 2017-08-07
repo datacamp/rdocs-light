@@ -336,10 +336,10 @@ const notFoundView = require('./views/not-found.html');
     shadowRoot.querySelector(selectors.desc).innerHTML = data.description || '';
     const topic = shadowRoot.querySelector(selectors.h_topic);
     topic.innerText = data.name;
-    topic.href = data.url;
+    topic.href = toAbsoluteURL(data.uri);
     const packageVersion = shadowRoot.querySelector(selectors.h_package);
     packageVersion.innerText = `${data.package_version.package_name} v${data.package_version.version}`;
-    packageVersion.href = data.package_version.url;
+    packageVersion.href = toAbsoluteURL(data.package_version.uri);
 
     const usageDiv = shadowRoot.querySelector(selectors.usage);
     if (!showTopicUsageSection || !data.usage) {
@@ -359,7 +359,7 @@ const notFoundView = require('./views/not-found.html');
       argumentsDiv.style.display = 'block';
     }
 
-    setNavigation(data.url, listTopicAnchors(data));
+    setNavigation(toAbsoluteURL(data.uri), listTopicAnchors(data));
   }
 
   function parseVersions(part) {
@@ -413,13 +413,14 @@ const notFoundView = require('./views/not-found.html');
     const requestInfo = parseRequestURL(url);
 
     delete data.fromCache;
-    if (Object.keys(data).length > 0) {
-      if (!requestInfo.topic) {
-        if (!requestInfo.version) {
-          data = data.versions[data.versions.length - 1];
-        }
+    console.log(requestInfo);
+    if (Object.keys(data).length > 0 && !(data.type === 'package' && requestInfo.topic)) {
+      if (data.type === 'package') {
+        data = data.versions[data.versions.length - 1];
         loadPackageData(data);
-      } else {
+      } else if (data.type === 'package_version') {
+        loadPackageData(data);
+      } else if (data.type === 'topic') {
         loadTopicData(data);
       }
       showTooltip();
