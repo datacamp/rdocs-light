@@ -413,7 +413,6 @@ const notFoundView = require('./views/not-found.html');
     const requestInfo = parseRequestURL(url);
 
     delete data.fromCache;
-    console.log(requestInfo);
     if (Object.keys(data).length > 0 && !(data.type === 'package' && requestInfo.topic)) {
       if (data.type === 'package') {
         data = data.versions[data.versions.length - 1];
