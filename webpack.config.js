@@ -8,10 +8,13 @@ const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 const libraryName = 'rdocs-light';
 const lib = 'rdl';
 
+var envPath = './.env';
+var prodEnvPath = './.prodEnv';
+
 const plugins = [
   new DotenvPlugin({
     sample: './.env.example',
-    path: './.env',
+    path: (env == 'build') ? prodEnvPath : envPath,
   }),
   new WebpackAutoInject({
     components: {

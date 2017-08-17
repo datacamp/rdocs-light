@@ -3,3 +3,5 @@ node_modules/
 lib/
 !lib/rdocs-light.min.js
 .npmrc
+
+\.prodEnv
