@@ -1,5 +1,5 @@
 node_modules/
 .env
 lib/
-exlude lib/rdocs-light.min.js
+!lib/rdocs-light.min.js
 .npmrc
