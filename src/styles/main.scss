@@ -1,6 +1,7 @@
 @import './_globals.scss';
 
 #rdocs-light-tooltip{
+    top: 0;
     visibility: hidden;
     position: absolute;
     border: 1px solid $primary-lighter;
