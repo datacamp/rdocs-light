@@ -1,6 +1,6 @@
 {
   "name": "@datacamp/rdocs-light",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "description": "Embeddable RDocumentation widget",
   "main": "lib//rdocs-light.min.js",
   "scripts": {

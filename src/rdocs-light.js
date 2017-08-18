@@ -362,79 +362,40 @@ const notFoundView = require('./views/not-found.html');
     setNavigation(toAbsoluteURL(data.uri), listTopicAnchors(data));
   }
 
-  function parseVersions(part) {
-    const versionRegex = new RegExp('(.*)/versions/(.*)', 'g');
-    const versionMatch = versionRegex.exec(part);
-    if (versionMatch === null) {
-      return {
-        package: decodeURIComponent(part),
-      };
-    }
-    return {
-      package: decodeURIComponent(versionMatch[1]),
-      version: decodeURIComponent(versionMatch[2]),
-    };
-  }
+  function reqLoadListener(xhr, response, requestInfo) {
+    if (xhr.status === 200) {
+      try {
+        let data = JSON.parse(response.responseText);
 
-  function parseTopicURL(url) {
-    const urlRegexString = `${API_BASE_URL}/api/packages/(.*)/topics/(.*)`;
-    const urlRegex = new RegExp(urlRegexString, 'g');
-    const match = urlRegex.exec(url);
-    if (match !== null) {
-      const result = parseVersions(match[1]);
-      result.topic = decodeURIComponent(match[2]);
-      return result;
-    }
-
-    return undefined;
-  }
-
-  function parsePackageURL(url) {
-    const urlRegexString = `${API_BASE_URL}/api/packages/(.*)`;
-    const urlRegex = new RegExp(urlRegexString, 'g');
-    const match = urlRegex.exec(url);
-    if (match !== null) {
-      return parseVersions(match[1]);
-    }
-
-    return undefined;
-  }
-
-  function parseRequestURL(url) {
-    const result = parseTopicURL(url);
-    if (result !== undefined) {
-      return result;
-    }
-    return parsePackageURL(url);
-  }
-
-  function reqLoadListener(response, url) {
-    let data = JSON.parse(response.responseText);
-    const requestInfo = parseRequestURL(url);
-
-    delete data.fromCache;
-    if (Object.keys(data).length > 0 && !(data.type === 'package' && requestInfo.topic)) {
-      if (data.type === 'package') {
-        data = data.versions[data.versions.length - 1];
-        loadPackageData(data);
-      } else if (data.type === 'package_version') {
-        loadPackageData(data);
-      } else if (data.type === 'topic') {
-        loadTopicData(data);
-      }
-      showTooltip();
-    } else {
-      let text = `No documentation found for the package '${requestInfo.package}'`;
-      if (requestInfo.version) {
-        text += ` v${requestInfo.version}`;
-      }
-      if (requestInfo.topic) {
-        text = `No documentation found for '${requestInfo.package}::${requestInfo.topic}'`;
-        if (requestInfo.version) {
-          text = `No documentation found for '${requestInfo.topic}' in ${requestInfo.package} v${requestInfo.version}`;
+        delete data.fromCache;
+        if (Object.keys(data).length > 0 && !(data.type === 'package' && requestInfo.topic)) {
+          if (data.type === 'package') {
+            data = data.versions[data.versions.length - 1];
+            loadPackageData(data);
+          } else if (data.type === 'package_version') {
+            loadPackageData(data);
+          } else if (data.type === 'topic') {
+            loadTopicData(data);
+          }
+          showTooltip();
+        } else {
+          let text = `No documentation found for the package '${requestInfo.package}'`;
+          if (requestInfo.version) {
+            text += ` v${requestInfo.version}`;
+          }
+          if (requestInfo.topic) {
+            text = `No documentation found for '${requestInfo.package}::${requestInfo.topic}'`;
+            if (requestInfo.version) {
+              text = `No documentation found for '${requestInfo.topic}' in ${requestInfo.package} v${requestInfo.version}`;
+            }
+          }
+          showNotFound(text);
         }
+      } catch (e) {
+        showNotFound('Something went wrong when retrieving the data.');
       }
-      showNotFound(text);
+    } else {
+      showNotFound('Something went wrong when retrieving the data.');
     }
   }
 
@@ -499,14 +460,20 @@ const notFoundView = require('./views/not-found.html');
     }
     showLoader();
     const oReq = new XMLHttpRequest();
-    let url = `${API_BASE_URL}/api/packages/${data.package}`;
-    if (data.version !== undefined) {
-      url += `/versions/${data.version}`;
-    }
+    let url;
     if (data.topic !== undefined) {
-      url += `/topics/${data.topic}`;
+      url = `${API_BASE_URL}/link/${data.topic}?package=${data.package}&json=1`;
+      if (data.version !== undefined) {
+        url += `&version=${data.version}`;
+      }
+    } else {
+      url = `${API_BASE_URL}/api/packages/${data.package}`;
+      if (data.version !== undefined) {
+        url += `/versions/${data.version}`;
+      }
     }
-    oReq.addEventListener('load', response => reqLoadListener(response.target, url));
+
+    oReq.addEventListener('load', response => reqLoadListener(oReq, response.target, data));
     oReq.addEventListener('error', reqErrorListener, false);
     oReq.open('get', url, true);
     oReq.send();
